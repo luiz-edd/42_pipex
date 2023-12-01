@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/11/29 18:22:08 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:30:35 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct s_pipex
 {
-	t_list	*cmd;
+	char	**cmd;
 	int		fd1;
 	int		fd2;
 	int		end[2];
