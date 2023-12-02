@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/11/29 18:30:35 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/02 15:01:10 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include "libft/src/libft.h"
 # include <sys/types.h>
+# include "libft/src/libft.h"
 
 typedef struct s_pipex
 {
@@ -25,6 +26,7 @@ typedef struct s_pipex
 	int		end[2];
 	char	*infile_path;
 	char	*outfile_path;
+	char 	**argv;
 	pid_t	pid;
 
 }			t_pipex;
