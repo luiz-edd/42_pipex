@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 15:32:55 by leduard2          #+#    #+#             */
-/*   Updated: 2023/11/23 15:55:12 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:20:22 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void				ft_freepp(char **arr);
 unsigned int		ft_atoi_base(char *str, int str_base);
 float				ft_absolute(float a);
 float				ft_maxval(float a, float b);
+void				ft_print_words(char **str);
 
 # ifndef FT_PRINTF_H
 #  define FT_PRINTF_H

@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_print_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 18:29:34 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/04 09:57:46 by leduard2         ###   ########.fr       */
+/*   Created: 2023/12/04 11:16:40 by leduard2          #+#    #+#             */
+/*   Updated: 2023/12/04 11:24:06 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+void	ft_print_words(char **str)
 {
-	size_t	i;
-	size_t	j;
-
+	int i;
 	i = 0;
-	j = 0;
-	if (!*little)
-		return ((char *)big);
-	while (big[i] && i < len)
+
+	while (str[i])
 	{
-		j = 0;
-		if (big[i] == little[j])
-		{
-			while (big[i + j] == little[j] && i + j < len && big[i + j])
-			{
-				j++;
-			}
-			if (!little[j])
-				return ((char *)big + i);
-		}
+		ft_printf("%s\n", str[i]);
 		i++;
 	}
-	return (NULL);
 }

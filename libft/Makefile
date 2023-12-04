@@ -67,6 +67,7 @@ SRC = ft_isalpha.c \
 	ft_lstsize.c \
 	ft_freepp.c \
 	ft_absolute.c \
+	ft_print_words.c \
 	$(PRINTF) \
 	$(GNL) \
 
@@ -80,9 +81,9 @@ all: $(NAME)
 $(NAME): $(OBJ_PATH)
 
 $(PATH_TO_OBJ)%.o: $(PATH_TO_SRC)%.c $(HEADERS)
-	mkdir -p obj
+	@mkdir -p obj
 	$(CC) $< -o $@ -c 
-	ar rcs $(NAME) $@ 
+	@ar rcs $(NAME) $@ 
 	
 clean: 
 	@rm -rf obj
