@@ -6,7 +6,7 @@ LIBFT_PATH = ./libft/
 HEADER = -I ./libft/src -I /src
 LIBFT = libft/libft.a
 
-SRC	= main.c format_str.c 
+SRC	= main.c format_str.c handle_process.c
 OBJ = $(SRC:%.c=%.o)
 
 OBJ_WITH_PATH = $(addprefix $(OBJ_PATH),$(OBJ))

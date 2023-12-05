@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/04 16:04:46 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:25:11 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,10 @@ typedef struct s_pipex
 
 //format_str
 int			format_str(t_pipex *pipex);
+
+//handle_process
+void	child_one(t_pipex *pipex);
+void	child_two(t_pipex *pipex);
+
 
 #endif
