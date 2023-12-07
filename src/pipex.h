@@ -19,28 +19,42 @@
 
 # define WRITE 1
 # define READ 0
+# define ERROR 0
+# define SUCCESS 1
+
+typedef struct s_cmd
+{
+	char	*cmd_path;
+	char	**cmd_args;
+	char	*cmd_name;
+}			t_cmd;
 
 typedef struct s_pipex
 {
-	char	**cmd;
+	char	**argv;
+	char	**envp;
 	char	**paths;
+	int		cmd_quantity;
+	char	*infile_path;
+	char	*outfile_path;
 	int		fd1;
 	int		fd2;
 	int		end[2];
-	char	*infile_path;
-	char	*outfile_path;
-	char	**argv;
-	char	**envp;
 	pid_t	pid;
-
+	t_cmd	**cmd;
 }			t_pipex;
 
-//format_str
+// format_str
 int			format_str(t_pipex *pipex);
 
-//handle_process
-void	child_one(t_pipex *pipex);
-void	child_two(t_pipex *pipex);
+// handle_process
+void		child_one(t_pipex *pipex);
+void		child_two(t_pipex *pipex);
 
+// verify_cmd
+int			verify_cmd(t_pipex *pipex, int cmd_position);
+
+// create_pipex
+void		*free_pipex(t_pipex *pipex);
 
 #endif

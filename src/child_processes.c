@@ -14,46 +14,35 @@
 #include <errno.h>
 #include <stdio.h>
 
-void	child_one(t_pipex *pipex)
+void	child_first(t_pipex *pipex, int cmd_position)
 {
-	char	*first_cmd;
-	int		fd;
 	int		i;
 	char	*cmd_path;
 	char	**cmd_args;
 
 	i = -1;
-	first_cmd = pipex->cmd[0];
-	fd = open(pipex->infile_path, O_RDONLY);
-	close(pipex->end[READ]);
-	if (fd < 0)
+	cmd_args = ft_split(pipex->cmd[cmd_position], ' ');
+	cmd_path = ft_strjoin
+		// 		cmd_args = ft_split(second_command, ' ');
+		// 		cmd_path = ft_strjoin(pipex->paths[i], cmd_args[0]);
+		close(pipex->end[READ]);
+	if (dup2(pipex->fd1, STDIN_FILENO) == -1)
 	{
-		perror(pipex->infile_path);
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		perror("DUP IN ERROR");
+		ft_putstr_fd("DUP IN ERROR", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(pipex->end[WRITE], STDOUT_FILENO) == -1)
 	{
-		perror("DUP OUT ERROR");
+		ft_putstr_fd("DUP OUT ERROR", 2);
 		exit(EXIT_FAILURE);
 	}
-	close(fd);
-	while (pipex->paths[++i] != NULL)
-	{
-		cmd_args = ft_split(pipex->cmd[0], ' ');
-		cmd_path = ft_strjoin(pipex->paths[i], cmd_args[0]);
-		execve(cmd_path, cmd_args, pipex->envp);
-	}
-	ft_putstr_fd(first_cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	close(pipex->fd1);
+	if (execve(cmd_path, cmd_args, pipex->envp))
+		exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
 }
 
-void	child_two(t_pipex *pipex)
+void	child_last(t_pipex *pipex)
 {
 	int		i;
 	int		fd;
@@ -64,8 +53,6 @@ void	child_two(t_pipex *pipex)
 	i = -1;
 	second_command = pipex->cmd[1];
 	fd = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	
-	
 	close(pipex->end[WRITE]);
 	if (fd < 0)
 	{
@@ -93,4 +80,4 @@ void	child_two(t_pipex *pipex)
 	ft_putstr_fd(": command not found\n", 2);
 	exit(EXIT_FAILURE);
 }
-//errno
+// errno

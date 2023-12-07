@@ -33,7 +33,7 @@ int	ft_print_unsigned_formated(unsigned long n)
 int	ft_print_unsigned(t_format *flags)
 {
 	int				count;
-	unsigned long	n;
+	long	n;
 
 	count = 0;
 	n = (unsigned long)va_arg(flags->ap, unsigned int);

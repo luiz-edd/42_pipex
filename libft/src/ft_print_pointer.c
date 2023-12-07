@@ -31,9 +31,7 @@ int	ft_print_pointer_formated(unsigned long n, int base)
 int	ft_print_pointer(t_format *flags)
 {
 	unsigned long	n;
-	int				count;
 
-	count = 0;
 	n = (unsigned long)va_arg(flags->ap, unsigned long);
 	if (n == 0)
 		return (write(1, "(nil)", 5));
