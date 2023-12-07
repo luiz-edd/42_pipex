@@ -18,9 +18,12 @@ void	child_first(t_pipex *pipex, int cmd_position)
 {
 	char	*cmd_path;
 	char	**cmd_args;
-
+	ft_putnbr_fd(cmd_position, 2);
+	ft_putstr_fd(": child first\n", 2);
+	
 	cmd_path = pipex->cmd[cmd_position]->cmd_path;
 	cmd_args = pipex->cmd[cmd_position]->cmd_args;
+
 	close(pipex->end[READ]);
 	if (dup2(pipex->fd1, STDIN_FILENO) == -1)
 	{
@@ -43,6 +46,8 @@ void	child_middle(t_pipex *pipex, int cmd_position)
 	char	*cmd_path;
 	char	**cmd_args;
 
+	ft_putnbr_fd(cmd_position, 2);
+	ft_putstr_fd(": child middle\n", 2);
 	cmd_path = pipex->cmd[cmd_position]->cmd_path;
 	cmd_args = pipex->cmd[cmd_position]->cmd_args;
 	if (dup2(pipex->end[READ], STDIN_FILENO) == -1)
@@ -55,6 +60,8 @@ void	child_middle(t_pipex *pipex, int cmd_position)
 		ft_putstr_fd("DUP OUT ERROR\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	close(pipex->fd1);
+	close(pipex->fd2);
 	if (execve(cmd_path, cmd_args, pipex->envp))
 		exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
@@ -65,6 +72,8 @@ void	child_last(t_pipex *pipex, int cmd_position)
 	char	*cmd_path;
 	char	**cmd_args;
 
+	ft_putnbr_fd(cmd_position, 2);
+	ft_putstr_fd(": child last\n", 2);
 	cmd_path = pipex->cmd[cmd_position]->cmd_path;
 	cmd_args = pipex->cmd[cmd_position]->cmd_args;
 	close(pipex->end[WRITE]);

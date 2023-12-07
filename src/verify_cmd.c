@@ -59,11 +59,14 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	}
 	if (access_status != FOUNDED)
 		return (print_access_error(access_status, cmd_name));
-	
+
 	pipex->cmd[cmd_position]->cmd_args = cmd_args;
 	pipex->cmd[cmd_position]->cmd_name = cmd_name;
 	pipex->cmd[cmd_position]->cmd_path = cmd_path;
-	ft_printf("Path: %s\nName:%s\nArgs: ", pipex->cmd[cmd_position]->cmd_path, pipex->cmd[cmd_position]->cmd_name);
+	ft_printf("----------------------------------------------------\n");
+	ft_printf("Path: %s\nName:%s\nArgs: ", pipex->cmd[cmd_position]->cmd_path,
+		pipex->cmd[cmd_position]->cmd_name);
 	ft_print_words(pipex->cmd[cmd_position]->cmd_args);
+	ft_printf("----------------------------------------------------\n");
 	return (SUCCESS);
 }

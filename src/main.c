@@ -41,26 +41,43 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("PIPE ERROR");
 		return (2);
 	}
-	while (i < pipex->cmd_quantity)
-	{
-		pipex->pid = fork();
-		if (pipex->pid == 0)
-		{
-			if (i == 0)
-				child_first(pipex, i);
-			else if (i < pipex->cmd_quantity - 1)
-				child_middle(pipex, i);
-			else
-				child_last(pipex, i);
-		}
-		// else
-		// {
-		// 	waitpid(pipex->pid, &status, 0);
-		// 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		// 		return (2);
-		// }
-		i++;
-	}
+	// fork 1
+	pipex->pid = fork();
+	if (pipex->pid == 0)
+		child_first(pipex, 0);
+	// else
+	// 	waitpid(pipex->pid, NULL, 0);;
+	// fork 2
+	pipex->pid = fork();
+	if (pipex->pid == 0)
+		child_middle(pipex, 1);
+	else
+		wait(NULL);
+	// fork 3
+	pipex->pid = fork();
+	if (pipex->pid == 0)
+		child_last(pipex, 2);
+	// else
+	// 	waitpid(pipex->pid, NULL, 0);
+	// while (i < pipex->cmd_quantity)
+	// {
+	// 	pipex->pid = fork();
+	// 	if (pipex->pid == 0)
+	// 	{
+	// 		if (i == 0)
+	// 			child_first(pipex, i);
+	// 		else if (i < pipex->cmd_quantity - 1)
+	// 			child_middle(pipex, i);
+	// 		else
+	// 			child_last(pipex, i);
+	// 	}
+	// 	// waitpid(pipex->pid, &status, 0);
+	// 	// if (WEXITSTATUS(status) != 0)
+	// 	// 	return (2);
+	// 	i++;
+	// }
+	close(pipex->end[WRITE]);
+	close(pipex->end[READ]);
 	if (pipex->pid != 0)
 		wait(NULL);
 }
