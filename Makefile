@@ -6,7 +6,7 @@ LIBFT_PATH = ./libft/
 HEADER = -I ./libft/src -I /src
 LIBFT = libft/libft.a
 
-SRC	= main.c format_str.c handle_process.c verify_cmd.c
+SRC	= child_processes.c create_pipex.c main.c verify_cmd.c
 OBJ = $(SRC:%.c=%.o)
 
 OBJ_WITH_PATH = $(addprefix $(OBJ_PATH),$(OBJ))

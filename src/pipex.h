@@ -21,6 +21,8 @@
 # define READ 0
 # define ERROR 0
 # define SUCCESS 1
+# define NOT_FOUND 6
+# define FOUNDED 5
 
 typedef struct s_cmd
 {
@@ -44,17 +46,15 @@ typedef struct s_pipex
 	t_cmd	**cmd;
 }			t_pipex;
 
-// format_str
-int			format_str(t_pipex *pipex);
+// create_pipex
+t_pipex		*create_pipex(int argc, char **argv, char **envp);
 
-// handle_process
-void		child_one(t_pipex *pipex);
-void		child_two(t_pipex *pipex);
+// child_processes
+void		child_first(t_pipex *pipex, int cmd_position);
+void		child_middle(t_pipex *pipex, int cmd_position);
+void		child_last(t_pipex *pipex, int cmd_position);
 
 // verify_cmd
 int			verify_cmd(t_pipex *pipex, int cmd_position);
-
-// create_pipex
-void		*free_pipex(t_pipex *pipex);
 
 #endif

@@ -104,22 +104,24 @@ static int	get_env_path(t_pipex *pipex)
 	return (SUCCESS);
 }
 
-int	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
+t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
-	int	i;
+	int		i;
+	t_pipex	*pipex;
 
 	i = 0;
-	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex), 1);
+	pipex = (t_pipex *)malloc(sizeof(t_pipex) * 1);
 	pipex->argv = argv;
 	pipex->envp = envp;
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
-	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd *), (argc - 3));
+	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd *) * (argc - 3));
 	pipex->cmd_quantity = argc - 3;
 	if (open_files(pipex) == ERROR || get_env_path(pipex) == ERROR)
 		return (free_pipex(pipex));
 	while (i < pipex->cmd_quantity)
 	{
+		pipex->cmd[i] = (t_cmd *)malloc(sizeof(t_cmd *));
 		if (verify_cmd(pipex, i) == ERROR)
 		{
 			free_pipex(pipex);
@@ -128,9 +130,4 @@ int	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 		i++;
 	}
 	return (pipex);
-}
-
-t_pipex	*create_pipex(int argc, char **argv, char **envp)
-{
-	t_pipex *pipex;
 }

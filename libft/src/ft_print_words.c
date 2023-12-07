@@ -16,10 +16,11 @@ void	ft_print_words(char **str)
 {
 	int i;
 	i = 0;
-
+	ft_printf("{");
 	while (str[i])
 	{
-		ft_printf("%s\n", str[i]);
+		ft_printf("%s, ", str[i]);
 		i++;
 	}
+	ft_printf("}\n");
 }

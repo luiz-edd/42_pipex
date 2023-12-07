@@ -1,0 +1,9 @@
+total 124
+-rw-rw-r-- 1 luizeduardo luizeduardo     13 Dec  6 20:04 infile.txt
+drwxrwxr-x 4 luizeduardo luizeduardo   4096 Dec  7 13:05 libft
+-rw-rw-r-- 1 luizeduardo luizeduardo    664 Dec  7 12:07 Makefile
+drwxrwxr-x 2 luizeduardo luizeduardo   4096 Dec  7 13:05 obj
+-rw-rw-r-- 1 luizeduardo luizeduardo      0 Dec  7 13:12 outfile.txt
+-rwxrwxr-x 1 luizeduardo luizeduardo 102256 Dec  7 13:05 pipex
+drwxrwxr-x 2 luizeduardo luizeduardo   4096 Dec  7 01:07 src
+-rw-rw-r-- 1 luizeduardo luizeduardo   1049 Dec  6 12:55 teste.c
