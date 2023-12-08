@@ -22,16 +22,24 @@ static void	free_cmd_struct(t_cmd **cmd)
 	{
 		if (cmd[i]->cmd_path != NULL)
 			free(cmd[i]->cmd_path);
-		if (cmd[i]->cmd_name != NULL)
-			free(cmd[i]->cmd_name);
 		cmd[i]->cmd_path = NULL;
-		cmd[i]->cmd_name = NULL;
 		j = 0;
-		while (cmd[i]->cmd_args[j])
+		// if (cmd[i]->cmd_args[j] != NULL)
+		// {
+		// 	while (cmd[i]->cmd_args[j])
+		// 	{
+		// 		if (cmd[i]->cmd_args[j] != NULL)
+		// 		{
+		// 			free(cmd[i]->cmd_args[j]);
+		// 			cmd[i]->cmd_args[j] = NULL;
+		// 		}
+		// 		j++;
+		// 	}
+		// }
+		if (cmd[i]->cmd_args != NULL)
 		{
-			free(cmd[i]->cmd_args[j]);
-			cmd[i]->cmd_args[j] = NULL;
-			j++;
+			free(cmd[i]->cmd_args);
+			cmd[i]->cmd_args = NULL;
 		}
 		i++;
 	}
@@ -45,6 +53,8 @@ void	*free_pipex(t_pipex *pipex)
 	{
 		if (pipex->cmd != NULL)
 			free_cmd_struct(pipex->cmd);
+		if (pipex->tube != NULL)
+			free(pipex->tube);
 		if (pipex != NULL)
 			free(pipex);
 	}
@@ -104,6 +114,20 @@ static int	get_env_path(t_pipex *pipex)
 	return (SUCCESS);
 }
 
+int	create_tubes(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (i < pipex->cmd_quantity)
+	{
+		if (pipe((int *)&pipex->tube[i]) == -1)
+			return (ERROR);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -117,7 +141,9 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 	pipex->outfile_path = argv[argc - 1];
 	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd *) * (argc - 3));
 	pipex->cmd_quantity = argc - 3;
-	if (open_files(pipex) == ERROR || get_env_path(pipex) == ERROR)
+	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * pipex->cmd_quantity);
+	if (open_files(pipex) == ERROR || get_env_path(pipex) == ERROR
+		|| create_tubes(pipex) == ERROR)
 		return (free_pipex(pipex));
 	while (i < pipex->cmd_quantity)
 	{

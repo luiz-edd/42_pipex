@@ -24,6 +24,12 @@
 # define NOT_FOUND 6
 # define FOUNDED 5
 
+typedef struct s_tube
+{
+	int		read_end;
+	int		write_end;
+}			t_tube;
+
 typedef struct s_cmd
 {
 	char	*cmd_path;
@@ -41,13 +47,14 @@ typedef struct s_pipex
 	char	*outfile_path;
 	int		fd1;
 	int		fd2;
-	int		end[2];
 	pid_t	pid;
 	t_cmd	**cmd;
+	t_tube	*tube;
 }			t_pipex;
 
 // create_pipex
 t_pipex		*create_pipex(int argc, char **argv, char **envp);
+void		*free_pipex(t_pipex *pipex);
 
 // child_processes
 void		child_first(t_pipex *pipex, int cmd_position);
@@ -56,5 +63,8 @@ void		child_last(t_pipex *pipex, int cmd_position);
 
 // verify_cmd
 int			verify_cmd(t_pipex *pipex, int cmd_position);
+
+// main
+void		close_pipes(t_pipex *pipex);
 
 #endif

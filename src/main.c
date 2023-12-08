@@ -16,6 +16,18 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+void	close_pipes(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (i < (pipex->cmd_quantity))
+	{
+		close(pipex->tube[i].read_end);
+		close(pipex->tube[i].write_end);
+		i++;
+	}
+}
 // entrada -> mallocar pipex -> popular pipex -> verificar fd1 ->
 // verificar fd2 -> verificar comandos do primeiro ao ultimo ->
 // popular pipex com comandos verificados
@@ -36,48 +48,42 @@ int	main(int argc, char **argv, char **envp)
 	pipex = create_pipex(argc, argv, envp);
 	if (!pipex)
 		return (2);
-	if (pipe(pipex->end) == -1)
+	while (i < pipex->cmd_quantity)
 	{
-		ft_printf("PIPE ERROR");
-		return (2);
+		pipex->pid = fork();
+		if (pipex->pid == 0)
+		{
+			if (i == 0)
+				child_first(pipex, i);
+			else if (i < pipex->cmd_quantity - 1)
+				child_middle(pipex, i);
+			else
+				child_last(pipex, i);
+		}
+		waitpid(pipex->pid, &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			return (2);
+		i++;
 	}
-	// fork 1
-	pipex->pid = fork();
-	if (pipex->pid == 0)
-		child_first(pipex, 0);
-	// else
-	// 	waitpid(pipex->pid, NULL, 0);;
-	// fork 2
-	pipex->pid = fork();
-	if (pipex->pid == 0)
-		child_middle(pipex, 1);
-	else
-		wait(NULL);
-	// fork 3
-	pipex->pid = fork();
-	if (pipex->pid == 0)
-		child_last(pipex, 2);
-	// else
-	// 	waitpid(pipex->pid, NULL, 0);
-	// while (i < pipex->cmd_quantity)
-	// {
-	// 	pipex->pid = fork();
-	// 	if (pipex->pid == 0)
-	// 	{
-	// 		if (i == 0)
-	// 			child_first(pipex, i);
-	// 		else if (i < pipex->cmd_quantity - 1)
-	// 			child_middle(pipex, i);
-	// 		else
-	// 			child_last(pipex, i);
-	// 	}
-	// 	// waitpid(pipex->pid, &status, 0);
-	// 	// if (WEXITSTATUS(status) != 0)
-	// 	// 	return (2);
-	// 	i++;
-	// }
-	close(pipex->end[WRITE]);
-	close(pipex->end[READ]);
-	if (pipex->pid != 0)
-		wait(NULL);
+	// if (pipex->pid != 0)
+	// 	wait(NULL);
+	// close_pipes(pipex);
 }
+
+// // fork 1
+// pipex->pid = fork();
+// if (pipex->pid == 0)
+// 	child_first(pipex, 0);
+// // else
+// // 	waitpid(pipex->pid, NULL, 0);;
+// // fork 2
+// pipex->pid = fork();
+// if (pipex->pid == 0)
+// 	child_middle(pipex, 1);
+// else
+// 	wait(NULL);
+// // fork 3
+// pipex->pid = fork();
+// if (pipex->pid == 0)
+// 	child_last(pipex, 2);
+// // else
