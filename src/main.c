@@ -60,10 +60,18 @@ int	main(int argc, char **argv, char **envp)
 			else
 				child_last(pipex, i);
 		}
-		waitpid(pipex->pid, &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			return (2);
-		i++;
+		else
+		{
+			close(pipex->tube[i].write_end);
+			waitpid(pipex->pid, &status, 0);
+			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			{
+				ft_putstr_fd("command errror\n", 2);
+				return (2);
+			}
+			i++;
+		}
+		
 	}
 	// if (pipex->pid != 0)
 	// 	wait(NULL);

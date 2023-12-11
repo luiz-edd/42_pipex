@@ -67,4 +67,8 @@ int			verify_cmd(t_pipex *pipex, int cmd_position);
 // main
 void		close_pipes(t_pipex *pipex);
 
+// free_utils
+void		*free_all(char *str1, char *str2, char *str3);
+void		*free_matrix(char **str);
+
 #endif

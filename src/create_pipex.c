@@ -12,55 +12,6 @@
 
 #include "pipex.h"
 
-static void	free_cmd_struct(t_cmd **cmd)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i]->cmd_path != NULL)
-			free(cmd[i]->cmd_path);
-		cmd[i]->cmd_path = NULL;
-		j = 0;
-		// if (cmd[i]->cmd_args[j] != NULL)
-		// {
-		// 	while (cmd[i]->cmd_args[j])
-		// 	{
-		// 		if (cmd[i]->cmd_args[j] != NULL)
-		// 		{
-		// 			free(cmd[i]->cmd_args[j]);
-		// 			cmd[i]->cmd_args[j] = NULL;
-		// 		}
-		// 		j++;
-		// 	}
-		// }
-		if (cmd[i]->cmd_args != NULL)
-		{
-			free(cmd[i]->cmd_args);
-			cmd[i]->cmd_args = NULL;
-		}
-		i++;
-	}
-	free(cmd);
-	cmd = NULL;
-}
-
-void	*free_pipex(t_pipex *pipex)
-{
-	if (pipex != NULL)
-	{
-		if (pipex->cmd != NULL)
-			free_cmd_struct(pipex->cmd);
-		if (pipex->tube != NULL)
-			free(pipex->tube);
-		if (pipex != NULL)
-			free(pipex);
-	}
-	return (NULL);
-}
-
 static int	open_files(t_pipex *pipex)
 {
 	pipex->fd1 = open(pipex->infile_path, O_RDONLY);
@@ -90,27 +41,33 @@ char	*get_path(t_pipex *pipex)
 			return (envp[i]);
 		i++;
 	}
+	ft_printf("PATH NOT FOUND\n");
 	return (NULL);
 }
 
-static int	get_env_path(t_pipex *pipex)
+static int	create_env_path(t_pipex *pipex)
 {
 	char	*path;
+	char	*aux;
 	int		i;
 
 	i = -1;
 	path = get_path(pipex);
 	if (path == NULL)
-	{
-		ft_printf("PATH NOT FOUND\n");
-		return (ERROR);
-	}
-	while (*path != '=')
-		path++;
+		while (*path != '=')
+			path++;
 	path++;
 	pipex->paths = ft_split(path, ':');
+	if (pipex->paths == NULL)
+		return (ERROR);
 	while (pipex->paths[++i])
+	{
+		aux = pipex->paths[i];
 		pipex->paths[i] = ft_strjoin(pipex->paths[i], "/");
+		free(aux);
+		if (pipex->paths[i] == NULL)
+			return (free_matrix(pipex->paths));
+	}
 	return (SUCCESS);
 }
 
@@ -132,19 +89,21 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
 	int		i;
 	t_pipex	*pipex;
+	int		cmd_quantity;
 
 	i = 0;
+	cmd_quantity = argc - 3;
 	pipex = (t_pipex *)malloc(sizeof(t_pipex) * 1);
+	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_quantity);
+	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * cmd_quantity);
+	pipex->cmd_quantity = cmd_quantity;
 	pipex->argv = argv;
 	pipex->envp = envp;
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
-	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd *) * (argc - 3));
-	pipex->cmd_quantity = argc - 3;
-	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * pipex->cmd_quantity);
-	if (open_files(pipex) == ERROR || get_env_path(pipex) == ERROR
+	if (open_files(pipex) == ERROR || create_env_path(pipex) == ERROR
 		|| create_tubes(pipex) == ERROR)
-		return (free_pipex(pipex));
+		return (free_all(pipex->tube, pipex->cmd, pipex));
 	while (i < pipex->cmd_quantity)
 	{
 		pipex->cmd[i] = (t_cmd *)malloc(sizeof(t_cmd *));
