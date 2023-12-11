@@ -73,9 +73,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		
 	}
-	// if (pipex->pid != 0)
-	// 	wait(NULL);
-	// close_pipes(pipex);
+	
+
 }
 
 // // fork 1

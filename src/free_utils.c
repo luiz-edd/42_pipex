@@ -12,71 +12,32 @@
 
 #include "pipex.h";
 
-static void	free_cmd_struct(t_cmd **cmd)
+void	*free_pipex(t_tube *tube, t_cmd **cmd, t_pipex *pipex)
 {
 	int	i;
-	int	j;
+	int	cmd_quantity;
 
 	i = 0;
-	while (cmd[i])
+	cmd_quantity = pipex->cmd_quantity;
+	if (cmd != NULL)
 	{
-		if (cmd[i]->cmd_path != NULL)
-			free(cmd[i]->cmd_path);
-		cmd[i]->cmd_path = NULL;
-		j = 0;
-		// if (cmd[i]->cmd_args[j] != NULL)
-		// {
-		// 	while (cmd[i]->cmd_args[j])
-		// 	{
-		// 		if (cmd[i]->cmd_args[j] != NULL)
-		// 		{
-		// 			free(cmd[i]->cmd_args[j]);
-		// 			cmd[i]->cmd_args[j] = NULL;
-		// 		}
-		// 		j++;
-		// 	}
-		// }
-		if (cmd[i]->cmd_args != NULL)
+		while (i < cmd_quantity)
 		{
-			free(cmd[i]->cmd_args);
-			cmd[i]->cmd_args = NULL;
+			free(cmd[i]);
+			cmd[i++] = NULL;
 		}
-		i++;
+		free(cmd);
+		cmd = NULL;
 	}
-	free(cmd);
-	cmd = NULL;
-}
-
-void	*free_pipex(t_pipex *pipex)
-{
+	if (tube != NULL)
+	{
+		free(tube);
+		tube = NULL;
+	}
 	if (pipex != NULL)
 	{
-		if (pipex->cmd != NULL)
-			free_cmd_struct(pipex->cmd);
-		if (pipex->tube != NULL)
-			free(pipex->tube);
-		if (pipex != NULL)
-			free(pipex);
-	}
-	return (NULL);
-}
-
-void	*free_all(char *str1, char *str2, char *str3)
-{
-	if (str1 != NULL)
-	{
-		free(str1);
-		str1 = NULL;
-	}
-	if (str2 != NULL)
-	{
-		free(str2);
-		str2 = NULL;
-	}
-	if (str3 != NULL)
-	{
-		free(str3);
-		str3 = NULL;
+		free(pipex);
+		pipex = NULL;
 	}
 	return (NULL);
 }

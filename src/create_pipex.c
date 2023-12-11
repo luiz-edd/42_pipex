@@ -65,6 +65,7 @@ static int	create_env_path(t_pipex *pipex)
 		aux = pipex->paths[i];
 		pipex->paths[i] = ft_strjoin(pipex->paths[i], "/");
 		free(aux);
+		aux = NULL;
 		if (pipex->paths[i] == NULL)
 			return (free_matrix(pipex->paths));
 	}
@@ -93,24 +94,28 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 
 	i = 0;
 	cmd_quantity = argc - 3;
-	pipex = (t_pipex *)malloc(sizeof(t_pipex) * 1);
-	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_quantity);
-	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * cmd_quantity);
+	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex) , 1);
+	pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *) , cmd_quantity);
+	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd *) , cmd_quantity);
+	while (i < cmd_quantity)
+		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd *),1);
 	pipex->cmd_quantity = cmd_quantity;
 	pipex->argv = argv;
 	pipex->envp = envp;
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
-	if (open_files(pipex) == ERROR || create_env_path(pipex) == ERROR
-		|| create_tubes(pipex) == ERROR)
-		return (free_all(pipex->tube, pipex->cmd, pipex));
+	if (open_files(pipex) == ERROR || create_tubes(pipex) == ERROR
+		|| create_env_path(pipex) == ERROR)
+		return (free_pipex(pipex->tube, pipex->cmd, pipex));
+	i = 0;
 	while (i < pipex->cmd_quantity)
 	{
-		pipex->cmd[i] = (t_cmd *)malloc(sizeof(t_cmd *));
 		if (verify_cmd(pipex, i) == ERROR)
 		{
-			free_pipex(pipex);
-			return (NULL);
+			close(pipex->fd1);
+			close(pipex->fd2);
+			free_matrix(pipex->paths);
+			return (free_pipex(pipex->tube, pipex->cmd, pipex));
 		}
 		i++;
 	}

@@ -54,7 +54,6 @@ typedef struct s_pipex
 
 // create_pipex
 t_pipex		*create_pipex(int argc, char **argv, char **envp);
-void		*free_pipex(t_pipex *pipex);
 
 // child_processes
 void		child_first(t_pipex *pipex, int cmd_position);
@@ -68,7 +67,7 @@ int			verify_cmd(t_pipex *pipex, int cmd_position);
 void		close_pipes(t_pipex *pipex);
 
 // free_utils
-void		*free_all(char *str1, char *str2, char *str3);
+void		*free_pipex(t_tube *tube, t_cmd **cmd, t_pipex *pipex);
 void		*free_matrix(char **str);
 
 #endif

@@ -49,16 +49,27 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 
 	i = -1;
 	cmd_args = ft_split(pipex->argv[cmd_position + 2], ' ');
+	if (cmd_args == NULL)
+		return (ERROR);
 	cmd_name = cmd_args[0];
 	access_status = NOT_FOUND;
 
 	while (pipex->paths[++i] && access_status == NOT_FOUND)
 	{
 		cmd_path = ft_strjoin(pipex->paths[i], cmd_name);
+		if (cmd_path == NULL)
+			return (ERROR);
 		access_status = verify_access(cmd_path);
+		if (access_status == FOUNDED)
+			break ;
+		free(cmd_path);
+		cmd_path = NULL;
 	}
 	if (access_status != FOUNDED)
+	{
+		free_matrix(cmd_args);
 		return (print_access_error(access_status, cmd_name));
+	}
 
 	pipex->cmd[cmd_position]->cmd_args = cmd_args;
 	pipex->cmd[cmd_position]->cmd_name = cmd_name;
