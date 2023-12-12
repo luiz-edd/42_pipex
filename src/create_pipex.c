@@ -89,16 +89,18 @@ int	create_tubes(t_pipex *pipex)
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
 	int		i;
+	int		j;
 	t_pipex	*pipex;
 	int		cmd_quantity;
 
 	i = 0;
+	j = 0;
 	cmd_quantity = argc - 3;
-	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex) , 1);
-	pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *) , cmd_quantity);
-	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd *) , cmd_quantity);
+	pipex = (t_pipex *)malloc(sizeof(t_pipex) * 1);
+	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * cmd_quantity);
+	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd **) * cmd_quantity);
 	while (i < cmd_quantity)
-		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd *),1);
+		pipex->cmd[i++] = (t_cmd *)malloc(sizeof(t_cmd) * 1);
 	pipex->cmd_quantity = cmd_quantity;
 	pipex->argv = argv;
 	pipex->envp = envp;
@@ -112,9 +114,18 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 	{
 		if (verify_cmd(pipex, i) == ERROR)
 		{
+			j = 0;
+			while (j < i)
+			{
+				free(pipex->cmd[j]->cmd_path);
+				free_matrix(pipex->cmd[j]->cmd_args);
+				j++;
+			}
 			close(pipex->fd1);
 			close(pipex->fd2);
 			free_matrix(pipex->paths);
+			
+			
 			return (free_pipex(pipex->tube, pipex->cmd, pipex));
 		}
 		i++;

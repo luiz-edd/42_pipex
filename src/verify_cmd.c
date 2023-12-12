@@ -14,12 +14,15 @@
 
 static int	print_access_error(int code, char *command)
 {
-	if (code == R_OK)
-		ft_printf("%s: command not readable\n", command);
-	else if (code == X_OK)
-		ft_printf("%s: command not executable\n", command);
-	else if (code == NOT_FOUND)
-		ft_printf("%s: command not found\n", command);
+	if (command != NULL)
+	{
+		if (code == R_OK)
+			ft_printf("%s: command not readable\n", command);
+		else if (code == X_OK)
+			ft_printf("%s: command not executable\n", command);
+		else if (code == NOT_FOUND)
+			ft_printf("%s: command not found\n", command);
+	}
 	return (ERROR);
 }
 
@@ -67,8 +70,9 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	}
 	if (access_status != FOUNDED)
 	{
+		print_access_error(access_status, cmd_name);
 		free_matrix(cmd_args);
-		return (print_access_error(access_status, cmd_name));
+		return (NULL);
 	}
 
 	pipex->cmd[cmd_position]->cmd_args = cmd_args;

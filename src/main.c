@@ -28,19 +28,12 @@ void	close_pipes(t_pipex *pipex)
 		i++;
 	}
 }
-// entrada -> mallocar pipex -> popular pipex -> verificar fd1 ->
-// verificar fd2 -> verificar comandos do primeiro ao ultimo ->
-// popular pipex com comandos verificados
-// fork() 1 executar primeiro comando -> se a flag falhar, parar tudo
-// fork() n* executar n* comandos -> se a flag falhar, parar tudo
-// fork() 3 executar ultimo comando -> se a flag falhar, parar tudo
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
 	int		i;
 	int		status;
-	int		status2;
 
 	i = 0;
 	if (argv < 5)
@@ -52,45 +45,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		pipex->pid = fork();
 		if (pipex->pid == 0)
-		{
-			if (i == 0)
-				child_first(pipex, i);
-			else if (i < pipex->cmd_quantity - 1)
-				child_middle(pipex, i);
-			else
-				child_last(pipex, i);
-		}
+			manage_child(pipex, i);
 		else
 		{
-			close(pipex->tube[i].write_end);
+			close(pipex->tube[i++].write_end);
 			waitpid(pipex->pid, &status, 0);
 			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			{
-				ft_putstr_fd("command errror\n", 2);
-				return (2);
-			}
-			i++;
+				return (free_finish(pipex));
 		}
-		
 	}
-	
-
+	free_finish(pipex);
 }
-
-// // fork 1
-// pipex->pid = fork();
-// if (pipex->pid == 0)
-// 	child_first(pipex, 0);
-// // else
-// // 	waitpid(pipex->pid, NULL, 0);;
-// // fork 2
-// pipex->pid = fork();
-// if (pipex->pid == 0)
-// 	child_middle(pipex, 1);
-// else
-// 	wait(NULL);
-// // fork 3
-// pipex->pid = fork();
-// if (pipex->pid == 0)
-// 	child_last(pipex, 2);
-// // else

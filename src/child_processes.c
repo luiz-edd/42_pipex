@@ -14,6 +14,16 @@
 #include <errno.h>
 #include <stdio.h>
 
+void	manage_child(t_pipex *pipex, int cmd_position)
+{
+	if (cmd_position == 0)
+		child_first(pipex, cmd_position);
+	else if (cmd_position < pipex->cmd_quantity - 1)
+		child_middle(pipex, cmd_position);
+	else
+		child_last(pipex, cmd_position);
+}
+
 void	child_first(t_pipex *pipex, int cmd_position)
 {
 	char	*cmd_path;
@@ -76,7 +86,7 @@ void	child_last(t_pipex *pipex, int cmd_position)
 	cmd_path = pipex->cmd[cmd_position]->cmd_path;
 	cmd_args = pipex->cmd[cmd_position]->cmd_args;
 	close(pipex->tube[cmd_position].write_end);
-	if (dup2(pipex->tube[cmd_position -1].read_end, STDIN_FILENO) == -1)
+	if (dup2(pipex->tube[cmd_position - 1].read_end, STDIN_FILENO) == -1)
 	{
 		ft_putstr_fd("DUP IN ERROR", 2);
 		exit(EXIT_FAILURE);
