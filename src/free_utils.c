@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/05 19:28:28 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:17:56 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	*free_matrix(char **str)
 
 int	free_finish(t_pipex *pipex)
 {
+	close_pipes(pipex);
 	close(pipex->fd1);
 	close(pipex->fd2);
 	free_cmd_content(pipex);

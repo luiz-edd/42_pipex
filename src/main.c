@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/05 19:28:28 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:18:00 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	main(int argc, char **argv, char **envp)
 
 	i = 0;
 	if (argv < 5)
+	{
+		ft_printf("missing args\n");
 		return (2);
+	}
 	pipex = create_pipex(argc, argv, envp);
 	if (!pipex)
 		return (2);

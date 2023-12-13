@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_process.c                                   :+:      :+:    :+:   */
+/*   create_pipex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/05 19:16:25 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:48:49 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ int	create_tubes(t_pipex *pipex)
 	return (SUCCESS);
 }
 
+//	0		1		 2	  	 3	    4		 5
+// ./pipex infile 		cmd1 	 cmd2 	outfile
+// ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -95,12 +98,15 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 
 	i = 0;
 	j = 0;
-	cmd_quantity = argc - 3;
-	pipex = (t_pipex *)malloc(sizeof(t_pipex) * 1);
-	pipex->tube = (t_tube *)malloc(sizeof(t_tube *) * cmd_quantity);
-	pipex->cmd = (t_cmd **)malloc(sizeof(t_cmd **) * cmd_quantity);
+	if (argv[1] == "here_doc")
+		cmd_quantity = argc - 4;
+	else
+		cmd_quantity = argc - 3;
+	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex), 1);
+	pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd **), cmd_quantity);
 	while (i < cmd_quantity)
-		pipex->cmd[i++] = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
 	pipex->cmd_quantity = cmd_quantity;
 	pipex->argv = argv;
 	pipex->envp = envp;
@@ -110,7 +116,7 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 		|| create_env_path(pipex) == ERROR)
 		return (free_pipex(pipex->tube, pipex->cmd, pipex));
 	i = 0;
-	while (i < pipex->cmd_quantity)
+	while (i < cmd_quantity)
 	{
 		if (verify_cmd(pipex, i) == ERROR)
 		{
@@ -124,8 +130,6 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 			close(pipex->fd1);
 			close(pipex->fd2);
 			free_matrix(pipex->paths);
-			
-			
 			return (free_pipex(pipex->tube, pipex->cmd, pipex));
 		}
 		i++;

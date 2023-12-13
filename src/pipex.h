@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/05 15:25:11 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:25:30 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define ERROR 0
 # define SUCCESS 1
 # define NOT_FOUND 6
-# define FOUNDED 5
+# define FOUND 5
 
 typedef struct s_tube
 {
