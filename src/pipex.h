@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/12 14:25:30 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/14 18:01:13 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_pipex
 	char	*outfile_path;
 	int		fd1;
 	int		fd2;
+	int		has_herodoc;
 	pid_t	pid;
 	t_cmd	**cmd;
 	t_tube	*tube;
@@ -66,6 +67,7 @@ int			verify_cmd(t_pipex *pipex, int cmd_position);
 
 // main
 void		close_pipes(t_pipex *pipex);
+void		here_doc(t_pipex *pipex, int cmd_position);
 
 // free_utils
 void		*free_pipex(t_tube *tube, t_cmd **cmd, t_pipex *pipex);

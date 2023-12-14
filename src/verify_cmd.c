@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:52:10 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/13 14:54:44 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/14 18:13:10 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ static int	print_access_error(int code, char *command)
 	return (ERROR);
 }
 
-static int	verify_access(char *filename)
+static int	verify_access(char *cmd) 
 {
-	if (filename == NULL)
+	if (cmd == NULL)
 		return (NOT_FOUND);
-	if (!access(filename, F_OK))
+	if (!access(cmd, F_OK))
 	{
-		if (access(filename, R_OK))
+		if (access(cmd, R_OK))
 			return (R_OK);
-		else if (access(filename, X_OK))
+		else if (access(cmd, X_OK))
 			return (X_OK);
 		else
 			return (FOUND);
@@ -53,7 +53,7 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	char *cmd_path;
 
 	i = -1;
-	if(pipex->argv[1] == "here_doc")
+	if(pipex->has_herodoc)
 		cmd_args = ft_split(pipex->argv[cmd_position + 3], ' ');
 	else
 		cmd_args = ft_split(pipex->argv[cmd_position + 2], ' ');

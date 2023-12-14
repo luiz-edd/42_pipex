@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/13 15:48:49 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/14 18:04:00 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static int	open_files(t_pipex *pipex)
 {
 	pipex->fd1 = open(pipex->infile_path, O_RDONLY);
 	pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (pipex->fd1 < 0)
+	if (pipex->fd1 < 0 && !pipex->has_herodoc)
 	{
+		perror("teste");
 		perror(pipex->infile_path);
 		return (ERROR);
 	}
@@ -98,7 +99,13 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 
 	i = 0;
 	j = 0;
-	if (argv[1] == "here_doc")
+	
+	if (ft_strncmp(pipex->infile_path, "here_doc", ft_strlen("here_doc") == 0))
+		pipex->has_herodoc = 1;
+	else
+		pipex->has_herodoc = 0;
+	
+	if(pipex->has_herodoc)
 		cmd_quantity = argc - 4;
 	else
 		cmd_quantity = argc - 3;
