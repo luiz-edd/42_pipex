@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/14 18:01:13 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:53:08 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void		child_first(t_pipex *pipex, int cmd_position);
 void		child_middle(t_pipex *pipex, int cmd_position);
 void		child_last(t_pipex *pipex, int cmd_position);
 void		manage_child(t_pipex *pipex, int cmd_position);
+void		child_limiter(t_pipex *pipex, int cmd_position);
 
 // verify_cmd
 int			verify_cmd(t_pipex *pipex, int cmd_position);

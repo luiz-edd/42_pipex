@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/14 18:04:00 by leduard2         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:00:07 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int	create_tubes(t_pipex *pipex)
 	return (SUCCESS);
 }
 
-//	0		1		 2	  	 3	    4		 5
-// ./pipex infile 		cmd1 	 cmd2 	outfile
+//	0		1			2	  	 3	    4		 5
+// ./pipex infile 		cmd1 		cmd2 	outfile
 // ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
@@ -99,18 +99,20 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 
 	i = 0;
 	j = 0;
-	
-	if (ft_strncmp(pipex->infile_path, "here_doc", ft_strlen("here_doc") == 0))
-		pipex->has_herodoc = 1;
-	else
-		pipex->has_herodoc = 0;
-	
-	if(pipex->has_herodoc)
-		cmd_quantity = argc - 4;
-	else
-		cmd_quantity = argc - 3;
 	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex), 1);
-	pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	if ( (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc"))) == 0)
+	{
+		pipex->has_herodoc = 1;
+		cmd_quantity = argc - 4;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity + 1);
+	}
+	else
+	{
+		pipex->has_herodoc = 0;
+		cmd_quantity = argc - 3;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	}
+	
 	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd **), cmd_quantity);
 	while (i < cmd_quantity)
 		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
