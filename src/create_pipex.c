@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 16:48:02 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:30:48 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	create_tubes(t_pipex *pipex)
 	return (SUCCESS);
 }
 
-//	0		1			2				3	    4		 5
+//	0		1			2				3		 4		 5
 // ./pipex infile 		cmd1 		cmd2 	outfile
 // ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
@@ -126,23 +126,5 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 		|| create_env_path(pipex) == ERROR)
 		return (free_pipex(pipex->tube, pipex->cmd, pipex));
 	i = 0;
-	// while (i < cmd_quantity)
-	// {
-	// 	if (verify_cmd(pipex, i) == ERROR)
-	// 	{
-	// 		// j = 0;
-	// 		// while (j < i)
-	// 		// {
-	// 		// 	free(pipex->cmd[j]->cmd_path);
-	// 		// 	free_matrix(pipex->cmd[j]->cmd_args);
-	// 		// 	j++;
-	// 		// }
-	// 		// close(pipex->fd1);
-	// 		// close(pipex->fd2);
-	// 		// free_matrix(pipex->paths);
-	// 		// return (free_pipex(pipex->tube, pipex->cmd, pipex));
-	// 	}
-	// 	i++;
-	// }
 	return (pipex);
 }

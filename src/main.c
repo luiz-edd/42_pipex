@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 16:45:27 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 18:47:53 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
 	int		i;
+	int		j;
 	int		status;
 
 	i = 0;
+	j = 0;
 	if (argv < 5)
 	{
 		ft_printf("missing args\n");
@@ -49,10 +51,17 @@ int	main(int argc, char **argv, char **envp)
 		if (verify_cmd(pipex, i) == SUCCESS)
 			pipex->pid = fork();
 		if (pipex->pid == 0)
-			manage_child(pipex, i);
+		{
+			if (pipex->has_herodoc && j == 0)
+				here_doc(pipex, i, j);
+			else
+				manage_child(pipex, i, j);
+		}
 		else
 		{
-			close(pipex->tube[i++].write_end);
+			if( !(pipex->has_herodoc && j == 0))
+				i++;
+			close(pipex->tube[j++].write_end);
 			waitpid(pipex->pid, &status, 0);
 			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 				return (free_finish(pipex));

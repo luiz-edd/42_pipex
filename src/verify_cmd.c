@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:52:10 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 16:54:40 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:26:00 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,5 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	pipex->cmd[cmd_position]->cmd_args = cmd_args;
 	pipex->cmd[cmd_position]->cmd_name = cmd_name;
 	pipex->cmd[cmd_position]->cmd_path = cmd_path;
-	ft_printf("----------------------------------------------------\n");
-	ft_printf("Path: %s\nName:%s\nArgs: ", pipex->cmd[cmd_position]->cmd_path,
-		pipex->cmd[cmd_position]->cmd_name);
-	ft_print_words(pipex->cmd[cmd_position]->cmd_args);
-	ft_printf("----------------------------------------------------\n");
 	return (SUCCESS);
 }
