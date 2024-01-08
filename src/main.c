@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 18:47:53 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 19:55:09 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			if( !(pipex->has_herodoc && j == 0))
+			if (!(pipex->has_herodoc && j == 0))
 				i++;
 			close(pipex->tube[j++].write_end);
 			waitpid(pipex->pid, &status, 0);
