@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/13 17:18:00 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:45:27 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	main(int argc, char **argv, char **envp)
 		return (2);
 	while (i < pipex->cmd_quantity)
 	{
-		pipex->pid = fork();
+		if (verify_cmd(pipex, i) == SUCCESS)
+			pipex->pid = fork();
 		if (pipex->pid == 0)
 			manage_child(pipex, i);
 		else

@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2023/12/13 15:17:56 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:52:35 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	*free_matrix(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i] != NULL)
+	if (str == NULL)
+		return (NULL);
+	while (str[i] != '\0')
 	{
 		free(str[i]);
 		str[i] = NULL;
