@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 12:48:47 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:53:22 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 
 void	manage_child(t_pipex *pipex, int cmd_position, int pipe_position)
 {
-	if (pipex->cmd[cmd_position]->cmd_path == NULL)
-	{
-		free_finish(pipex);
-		exit(EXIT_FAILURE);
-	}
+	// if (pipex->cmd[cmd_position]->cmd_path == NULL)
+	// {
+	// 	free_finish(pipex);
+	// 	exit(EXIT_FAILURE);
+	// }
 	if (cmd_position == 0 && !pipex->has_herodoc)
 		child_first(pipex, cmd_position, pipe_position);
 	else if (cmd_position < pipex->cmd_quantity - 1)
@@ -40,11 +40,11 @@ void	here_doc(t_pipex *pipex, int cmd_position, int pipe_position)
 	int		i;
 
 	i = 0;
-	// if (pipex->cmd[cmd_position]->cmd_path == NULL)
-	// {
-	// 	free_finish(pipex);
-	// 	exit(EXIT_FAILURE);
-	// }
+	if (pipex->cmd[cmd_position]->cmd_path == NULL)
+	{
+		free_finish(pipex);
+		exit(EXIT_FAILURE);
+	}
 	line = get_next_line(1);
 	close(pipex->tube[pipe_position].read_end);
 	if (line == NULL)
@@ -84,14 +84,8 @@ void	child_first(t_pipex *pipex, int cmd_position, int pipe_position)
 	if (dup2(pipex->fd1, STDIN_FILENO) == -1)
 		exit(EXIT_FAILURE);
 	if (dup2(pipex->tube[pipe_position].write_end, STDOUT_FILENO) == -1)
-	{
 		exit(EXIT_FAILURE);
-	}
-	// close(pipex->fd1);
-	// close(pipex->fd2);
-	close_pipes(pipex);
-	if (execve(cmd_path, cmd_args, pipex->envp))
-		exit(EXIT_SUCCESS);
+	execve(cmd_path, cmd_args, pipex->envp);
 	free_finish(pipex);
 	exit(EXIT_FAILURE);
 }
@@ -110,8 +104,7 @@ void	child_middle(t_pipex *pipex, int cmd_position, int pipe_position)
 	// close(pipex->fd1);
 	// close(pipex->fd2);
 	close_pipes(pipex);
-	if (execve(cmd_path, cmd_args, pipex->envp))
-		exit(EXIT_SUCCESS);
+	execve(cmd_path, cmd_args, pipex->envp);
 	free_finish(pipex);
 	exit(EXIT_FAILURE);
 }
@@ -125,7 +118,7 @@ void	child_last(t_pipex *pipex, int cmd_position, int pipe_position)
 	cmd_args = pipex->cmd[cmd_position]->cmd_args;
 	if (pipex->fd2 < 0)
 	{
-		free_finish(pipex);	
+		free_finish(pipex);
 		exit(EXIT_FAILURE);
 	}
 	close(pipex->tube[cmd_position].write_end);
@@ -134,9 +127,11 @@ void	child_last(t_pipex *pipex, int cmd_position, int pipe_position)
 	if (dup2(pipex->fd2, STDOUT_FILENO) == -1)
 		exit(EXIT_FAILURE);
 	close(pipex->fd2);
-	close_pipes(pipex);
-	if (execve(cmd_path, cmd_args, pipex->envp))
-		exit(EXIT_SUCCESS);
+	// close_pipes(pipex);
+	// ft_putstr_fd("----------------------\n", 2);
+	// ft_putnbr_fd(execve(cmd_path, cmd_args, pipex->envp), 2);
+	// ft_putstr_fd("----------------------\n", 2);
+	execve(cmd_path, cmd_args, pipex->envp);
 	free_finish(pipex);
 	exit(EXIT_FAILURE);
 }

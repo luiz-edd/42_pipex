@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 10:17:06 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:35:13 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_pipex
 	int		fd1;
 	int		fd2;
 	int		has_herodoc;
+	int		error_code;
 	pid_t	pid;
 	t_cmd	**cmd;
 	t_tube	*tube;
