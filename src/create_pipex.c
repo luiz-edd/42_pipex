@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 15:09:49 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:58:58 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	open_files(t_pipex *pipex)
 	{
 		// errno = 1;
 		// ft_printf("errno:%d\n", errno);
-		pipex->error_code = 1;
+		// pipex->error_code = 1;
 		perror(pipex->infile_path);
 	}
 	if (pipex->has_herodoc)

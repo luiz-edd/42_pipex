@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:58:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 17:58:40 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:04:57 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,19 @@ int	main(int argc, char **argv, char **envp)
 		if (!(pipex->has_herodoc && j == 0))
 		{
 			if (verify_cmd(pipex, i) == ERROR && i == pipex->cmd_quantity - 1)
+			{
 				pipex->error_code = 127;
+				ft_printf("pipex error code comand :%d\n", pipex->error_code);
+			}
 		}
 		pipex->pid = fork();
 		if (pipex->pid == 0)
 		{
-			ft_printf("cmd_position: %d\npipe_position: %d\n", i, j);
-			ft_print_words(pipex->cmd[i]->cmd_args);
-			ft_printf("cmd_name:%s\n", pipex->cmd[i]->cmd_name);
-			ft_printf("cmd_path:%s\n", pipex->cmd[i]->cmd_path);
-			ft_printf("----------------------------------------------------\n");
-			ft_printf("----------------------------------------------------\n");
+			// ft_printf("cmd_position: %d\npipe_position: %d\n", i, j);
+			// ft_print_words(pipex->cmd[i]->cmd_args);
+			// ft_printf("cmd_name:%s\n", pipex->cmd[i]->cmd_name);
+			// ft_printf("cmd_path:%s\n", pipex->cmd[i]->cmd_path);
+			// ft_printf("----------------------------------------------------\n");
 			if (pipex->has_herodoc && j == 0)
 				here_doc(pipex, i, j);
 			else
@@ -80,15 +82,19 @@ int	main(int argc, char **argv, char **envp)
 			if (i == pipex->cmd_quantity)
 			{
 				waitpid(pipex->pid, &status, 0);
-				pipex->error_code = (((status)&0xff00) >> 8);
+				if ((((status)&0xff00) >> 8) == 1 && pipex->error_code != 127)
+					pipex->error_code = 1;
 			}
 			else
 				wait(NULL);
 		}
 	}
-	if (pipex->fd2 < 0)
-		pipex->error_code = 1;
 	status = pipex->error_code;
+	if (pipex->fd2 < 0)
+	{
+		// ft_printf("fd2 :%d\n", pipex->fd2);
+		status = 1;
+	}
 	free_finish(pipex);
 	ft_printf("error code:%d\n", status);
 	return (status);

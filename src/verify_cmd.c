@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:52:10 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 18:36:54 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:50:33 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	verify_access(char *cmd)
 	}
 	return (NOT_FOUND);
 }
-//	0		1			2				3			4		 5
+//	0		1			2				3			4			5
 // ./pipex infile 		cmd1 		cmd2 	outfile
 // ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 int	verify_cmd(t_pipex *pipex, int cmd_position)
@@ -77,9 +77,12 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	if (access_status != FOUND)
 	{
 		if (cmd_path == NULL)
-			cmd_path = ft_strjoin(pipex->paths[i-1], cmd_name);
+			cmd_path = ft_strjoin(pipex->paths[i - 1], cmd_name);
 		print_access_error(access_status, cmd_name);
-		// return (ERROR);
+		pipex->cmd[cmd_position]->cmd_args = cmd_args;
+		pipex->cmd[cmd_position]->cmd_name = cmd_name;
+		pipex->cmd[cmd_position]->cmd_path = cmd_path;
+		return (ERROR);
 	}
 	// free_matrix(cmd_args);
 	// return (ERROR);
