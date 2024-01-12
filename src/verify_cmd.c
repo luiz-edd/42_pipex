@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:52:10 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 17:26:00 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:36:17 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 	}
 	if (access_status != FOUND)
 	{
-		// print_access_error(access_status, cmd_name);
+		print_access_error(access_status, cmd_name);
 		free_matrix(cmd_args);
 		return (ERROR);
 	}

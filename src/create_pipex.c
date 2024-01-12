@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/08 18:30:48 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/12 12:35:57 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 static int	open_files(t_pipex *pipex)
 {
-	pipex->fd1 = open(pipex->infile_path, O_RDONLY);
-	pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex->fd1 = -1;
+	if(!pipex->has_herodoc)
+		pipex->fd1 = open(pipex->infile_path, O_RDONLY);
 	if (pipex->fd1 < 0 && !pipex->has_herodoc)
-	{
-		perror("teste");
 		perror(pipex->infile_path);
-		return (ERROR);
-	}
+	if (pipex->has_herodoc)
+		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_APPEND);
+	else
+		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
 	if (pipex->fd2 < 0)
-	{
 		perror(pipex->outfile_path);
-		return (ERROR);
-	}
 	return (SUCCESS);
 }
 char	*get_path(t_pipex *pipex)
@@ -89,7 +88,7 @@ int	create_tubes(t_pipex *pipex)
 	return (SUCCESS);
 }
 
-//	0		1			2				3		 4		 5
+//	0		1			2				3			4			5
 // ./pipex infile 		cmd1 		cmd2 	outfile
 // ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
@@ -122,6 +121,7 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 	pipex->envp = envp;
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
+	pipex->pid = getpid();
 	if (open_files(pipex) == ERROR || create_tubes(pipex) == ERROR
 		|| create_env_path(pipex) == ERROR)
 		return (free_pipex(pipex->tube, pipex->cmd, pipex));

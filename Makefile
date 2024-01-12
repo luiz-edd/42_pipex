@@ -31,4 +31,7 @@ fclean: clean
 	@rm -rf $(BONUS_NAME)
 	@make -C $(LIBFT_PATH) fclean
 
+val: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all ./pipex missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
+
 re: fclean all
