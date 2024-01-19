@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 10:04:17 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 18:27:07 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:25:31 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**ft_quote_split(char *str, char delimiter)
 	int		words;
 
 	i = -1;
-	words = ft_countwords(str, delimiter);
+	words = ft_countwords_quote(str, delimiter);
 	ft_printf("str:|%s|\n", str);
 	ft_printf("total words: %d\n", words);
 	arr = (char **)malloc((words + 1) * sizeof(char *));

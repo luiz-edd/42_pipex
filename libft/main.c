@@ -6,15 +6,15 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:04:34 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 18:32:01 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:29:04 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/libft.h"
 
-int	main(int argc, char **argv)
+int	main()
 {
-	// char *str = "\'a \' \"\" \"b\"\'\'";
-	char **splited = ft_quote_split(argv[1], ' ');
+	char *str = " \"\"oivaitomanocu\"\" \'     -      \'\'\'\'aaa\' ";
+	char **splited = ft_quote_split(str, ' ');
 	ft_print_words(splited);
 }

@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 11:16:40 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 18:30:06 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:42:54 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_print_words(char **str)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	ft_printf("{");
 	while (str[i])
@@ -22,7 +23,7 @@ void	ft_print_words(char **str)
 		ft_printf("\"%s\", ", str[i]);
 		i++;
 	}
-	if(str[i] == NULL)
+	if (str[i] == NULL)
 		ft_printf("\"NULL\"");
 	ft_printf("}\n");
 }

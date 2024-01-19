@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:19:04 by leduard2          #+#    #+#             */
-/*   Updated: 2023/11/21 17:13:09 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:43:03 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_print_unsigned_formated(unsigned long n)
 
 int	ft_print_unsigned(t_format *flags)
 {
-	int				count;
+	int		count;
 	long	n;
 
 	count = 0;

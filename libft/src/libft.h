@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 15:32:55 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 17:54:57 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:24:50 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,8 @@ int					ft_print_pointer(t_format *flags);
 int					ft_print_unsigned(t_format *flags);
 
 // SPLIT_QUOTE
-int					ft_countwords(char *str, char delimiter);
 void				ft_add_word(char *str, char delimiter, char *dst);
-int					ft_countwords(char *str, char delimiter);
+int					ft_countwords_quote(char *str, char delimiter);
 int					ft_get_len(char *str, char delimiter);
 char				*ft_move_next_word(char *str, char delimiter);
 char				**ft_quote_split(char *str, char delimiter);

@@ -1,6 +1,6 @@
 NAME = libft.a
 HEADERS = src/
-CC = cc -Wall -Wextra -Werror 
+CC = cc -Wall -Wextra -Werror -g3
 
 PATH_TO_SRC = src/
 PATH_TO_OBJ = obj/
@@ -77,7 +77,7 @@ SRC = ft_isalpha.c \
 	ft_print_words.c \
 	$(PRINTF) \
 	$(GNL) \
-	# $(SPLIT_QUOTE) \
+	$(SPLIT_QUOTE) 
 
 OBJ = $(SRC:.c=.o)
 

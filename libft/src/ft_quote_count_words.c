@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:39:05 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 18:57:17 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:24:18 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*verify_word(char *str, char delimiter, char quote, int *count)
 }
 
 //  ""''aa
-int	ft_countwords(char *str, char delimiter)
+int	ft_countwords_quote(char *str, char delimiter)
 {
 	int		count;
 

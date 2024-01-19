@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 19:52:10 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/15 15:28:48 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:30:05 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 
 	i = -1;
 	if (pipex->has_herodoc)
-		cmd_args = ft_split(pipex->argv[cmd_position + 3], ' ');
+		cmd_args = ft_quote_split(pipex->argv[cmd_position + 3], ' ');
 	else
-		cmd_args = ft_split(pipex->argv[cmd_position + 2], ' ');
+		cmd_args = ft_quote_split(pipex->argv[cmd_position + 2], ' ');
 
 	if (cmd_args == NULL)
 		return (ERROR);

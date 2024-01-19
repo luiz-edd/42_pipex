@@ -6,13 +6,13 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 18:52:25 by leduard2          #+#    #+#             */
-/*   Updated: 2023/10/22 15:25:30 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/19 20:23:44 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_countwords(char *str, char delimiter)
+static int	ft_countwords(char *str, char delimiter)
 {
 	int	count;
 	int	i;
