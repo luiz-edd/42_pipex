@@ -18,6 +18,13 @@ PRINTF = ft_eval_format.c \
 
 GNL = get_next_line.c
 
+SPLIT_QUOTE = ft_quote_add_word.c \
+	ft_quote_count_words.c \
+	ft_quote_get_len.c \
+	ft_quote_move_next_word.c \
+	ft_quote_split.c \
+
+
 SRC = ft_isalpha.c \
 	ft_isdigit.c \
 	ft_isalnum.c \
@@ -70,6 +77,7 @@ SRC = ft_isalpha.c \
 	ft_print_words.c \
 	$(PRINTF) \
 	$(GNL) \
+	# $(SPLIT_QUOTE) \
 
 OBJ = $(SRC:.c=.o)
 
@@ -81,7 +89,7 @@ all: $(NAME)
 $(NAME): $(OBJ_PATH)
 
 $(PATH_TO_OBJ)%.o: $(PATH_TO_SRC)%.c $(HEADERS)
-	@mkdir -p obj
+	@mkdir -p obj 
 	$(CC) $< -o $@ -c 
 	@ar rcs $(NAME) $@ 
 	

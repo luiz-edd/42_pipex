@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_words.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 11:16:40 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/19 18:30:06 by leduard2         ###   ########.fr       */
+/*   Created: 2024/01/19 18:04:34 by leduard2          #+#    #+#             */
+/*   Updated: 2024/01/19 18:32:01 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "src/libft.h"
 
-void	ft_print_words(char **str)
+int	main(int argc, char **argv)
 {
-	int i;
-	i = 0;
-	ft_printf("{");
-	while (str[i])
-	{
-		ft_printf("\"%s\", ", str[i]);
-		i++;
-	}
-	if(str[i] == NULL)
-		ft_printf("\"NULL\"");
-	ft_printf("}\n");
+	// char *str = "\'a \' \"\" \"b\"\'\'";
+	char **splited = ft_quote_split(argv[1], ' ');
+	ft_print_words(splited);
 }

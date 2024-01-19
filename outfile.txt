@@ -1,0 +1,17 @@
+total 132
+drwxr-xr-x  7 leduard2 candidate  4096 Jan 15 17:10 .
+drwxr-xr-x 19 leduard2 candidate  4096 Dec  2 16:34 ..
+-rw-r--r--  1 leduard2 candidate   468 Jan 11 15:28 args_test.txt
+-rw-r--r--  1 leduard2 candidate     0 Jan 12 15:06 cat -e
+drwxr-xr-x  8 leduard2 candidate  4096 Jan 12 20:49 .git
+-rw-r--r--  1 leduard2 candidate    23 Jan 15 17:03 infile.txt
+drwxr-xr-x  4 leduard2 candidate  4096 Jan 15 17:03 libft
+-rw-r--r--  1 leduard2 candidate   839 Jan 12 17:59 Makefile
+drwxr-xr-x  2 leduard2 candidate  4096 Jan 15 17:03 obj
+-rw-r--r--  1 leduard2 candidate     0 Jan 12 16:37 outfdsfdsfile.txt
+-rw-r--r--  1 leduard2 candidate     0 Jan 15 17:12 outfile2.txt
+-rw-r--r--  1 leduard2 candidate   975 Jan 15 17:12 outfile.txt
+-rwxr-xr-x  1 leduard2 candidate 41296 Jan 15 17:03 pipex
+drwxr-xr-x  2 leduard2 candidate  4096 Jan 15 15:31 src
+-rw-r--r--  1 leduard2 candidate 37601 Jan 15 17:12 teste5.txt
+drwxr-xr-x  2 leduard2 candidate  4096 Dec  2 16:49 .vscode

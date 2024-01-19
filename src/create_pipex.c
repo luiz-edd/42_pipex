@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 18:58:58 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:43:59 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,17 @@
 static int	open_files(t_pipex *pipex)
 {
 	pipex->fd1 = -1;
-	if(!pipex->has_herodoc)
+	if (!pipex->has_herodoc)
 		pipex->fd1 = open(pipex->infile_path, O_RDONLY);
 	if (pipex->fd1 < 0 && !pipex->has_herodoc)
-	{
-		// errno = 1;
-		// ft_printf("errno:%d\n", errno);
-		// pipex->error_code = 1;
 		perror(pipex->infile_path);
-	}
 	if (pipex->has_herodoc)
 		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_APPEND);
 	else
 		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC,
 				0644);
 	if (pipex->fd2 < 0)
-	{
-		
 		perror(pipex->outfile_path);
-	}
 	return (SUCCESS);
 }
 char	*get_path(t_pipex *pipex)
