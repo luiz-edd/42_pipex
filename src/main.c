@@ -56,20 +56,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!(pipex->has_herodoc && j == 0))
 		{
 			if (verify_cmd(pipex, i) == ERROR && i == pipex->cmd_quantity - 1)
-			{
 				pipex->error_code = 127;
-				ft_printf("pipex error code comand :%d\n", pipex->error_code);
-			}
 		}
-		// else
-		// 	verify_cmd(pipex, i);
 		pipex->pid = fork();
 		if (pipex->pid == 0)
 		{
-			// ft_printf("cmd_position: %d\npipe_position: %d\n", i, j);
-			// ft_printf("cmd_name:%s\n", pipex->cmd[i]->cmd_name);
-			// ft_printf("cmd_path:%s\n", pipex->cmd[i]->cmd_path);
-			// ft_printf("----------------------------------------------------\n");
 			if (pipex->has_herodoc && j == 0)
 				here_doc(pipex, i, j);
 			else
@@ -86,17 +77,11 @@ int	main(int argc, char **argv, char **envp)
 				if ((((status)&0xff00) >> 8) == 1 && pipex->error_code != 127)
 					pipex->error_code = 1;
 			}
-			else
-				wait(NULL);
 		}
 	}
 	status = pipex->error_code;
 	if (pipex->fd2 < 0)
-	{
-		// ft_printf("fd2 :%d\n", pipex->fd2);
-		// disp pipex->cmd[0]->cmd_path
 		status = 1;
-	}
 	free_finish(pipex);
 	ft_printf("error code:%d\n", status);
 	return (status);
