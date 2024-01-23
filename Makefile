@@ -35,3 +35,8 @@ val: $(NAME)
 	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
 
 re: fclean all
+
+test:
+	make && ./pipex infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
+	make && ./pipex here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
+	

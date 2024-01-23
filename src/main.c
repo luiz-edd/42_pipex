@@ -34,6 +34,33 @@ void	close_pipes(t_pipex *pipex)
 	}
 }
 
+void	ft_manage_father(t_pipex *pipex, int *i, int *j, int *status)
+{
+	if (!(pipex->has_herodoc && *j == 0))
+		if (verify_cmd(pipex, *i) == ERROR && *i == pipex->cmd_quantity - 1)
+			pipex->error_code = 127;
+	pipex->pid = fork();
+	if (pipex->pid == 0)
+	{
+		if (pipex->has_herodoc && *j == 0)
+			here_doc(pipex, *i, *j);
+		else
+			manage_child(pipex, *i, *j);
+	}
+	else
+	{
+		if (!(pipex->has_herodoc && *j == 0))
+			*i += 1;
+		close(pipex->tube[(*j)++].write_end);
+		if (*i == pipex->cmd_quantity)
+		{
+			waitpid(pipex->pid, status, 0);
+			if ((((*status) & 0xff00) >> 8) == 1 && pipex->error_code != 127)
+				pipex->error_code = 1;
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
@@ -52,37 +79,10 @@ int	main(int argc, char **argv, char **envp)
 	if (!pipex)
 		return (2);
 	while (i < pipex->cmd_quantity)
-	{
-		if (!(pipex->has_herodoc && j == 0))
-		{
-			if (verify_cmd(pipex, i) == ERROR && i == pipex->cmd_quantity - 1)
-				pipex->error_code = 127;
-		}
-		pipex->pid = fork();
-		if (pipex->pid == 0)
-		{
-			if (pipex->has_herodoc && j == 0)
-				here_doc(pipex, i, j);
-			else
-				manage_child(pipex, i, j);
-		}
-		else
-		{
-			if (!(pipex->has_herodoc && j == 0))
-				i++;
-			close(pipex->tube[j++].write_end);
-			if (i == pipex->cmd_quantity)
-			{
-				waitpid(pipex->pid, &status, 0);
-				if ((((status)&0xff00) >> 8) == 1 && pipex->error_code != 127)
-					pipex->error_code = 1;
-			}
-		}
-	}
+		ft_manage_father(pipex, &i, &j, &status);
 	status = pipex->error_code;
 	if (pipex->fd2 < 0)
 		status = 1;
 	free_finish(pipex);
-	ft_printf("error code:%d\n", status);
 	return (status);
 }

@@ -42,47 +42,50 @@ static int	verify_access(char *cmd)
 	return (NOT_FOUND);
 }
 
-int	verify_cmd(t_pipex *pipex, int cmd_position)
+static char	**ft_assign_cmd_args(t_pipex *pipex, int cmd_position)
 {
-	int i;
-	int access_status;
-	char *cmd_name;
-	char **cmd_args;
-	char *cmd_path;
+	char	**cmd_args;
 
-	i = -1;
 	if (pipex->has_herodoc)
 		cmd_args = ft_quote_split(pipex->argv[cmd_position + 3], ' ');
 	else
 		cmd_args = ft_quote_split(pipex->argv[cmd_position + 2], ' ');
+	return (cmd_args);
+}
 
-	if (cmd_args == NULL)
-		return (ERROR);
-	cmd_name = cmd_args[0];
-	access_status = NOT_FOUND;
-
+static int	ft_assign_cmd_path(t_pipex *pipex, int cmd_position,
+		int access_status, int i)
+{
 	while (pipex->paths[++i] && access_status == NOT_FOUND)
 	{
-		cmd_path = ft_strjoin(pipex->paths[i], cmd_name);
-		if (cmd_path == NULL)
-			return (ERROR);
-		access_status = verify_access(cmd_path);
+		pipex->cmd[cmd_position]->cmd_path = ft_strjoin(pipex->paths[i],
+				pipex->cmd[cmd_position]->cmd_name);
+		access_status = verify_access(pipex->cmd[cmd_position]->cmd_path);
 		if (access_status != NOT_FOUND)
 			break ;
-		free(cmd_path);
-		cmd_path = NULL;
+		free(pipex->cmd[cmd_position]->cmd_path);
+		pipex->cmd[cmd_position]->cmd_path = NULL;
 	}
 	if (access_status != FOUND)
 	{
-		if (cmd_path == NULL)
-			cmd_path = ft_strjoin(pipex->paths[i - 1], cmd_name);
-		print_access_error(access_status, cmd_name);
-	}
-	pipex->cmd[cmd_position]->cmd_args = cmd_args;
-	pipex->cmd[cmd_position]->cmd_name = cmd_name;
-	pipex->cmd[cmd_position]->cmd_path = cmd_path;
-	if (access_status != FOUND)
+		if (pipex->cmd[cmd_position]->cmd_path == NULL)
+			pipex->cmd[cmd_position]->cmd_path = ft_strjoin(pipex->paths[i - 1],
+					pipex->cmd[cmd_position]->cmd_name);
+		print_access_error(access_status, pipex->cmd[cmd_position]->cmd_name);
 		return (ERROR);
-	else
-		return (SUCCESS);
+	}
+	return (SUCCESS);
+}
+
+int	verify_cmd(t_pipex *pipex, int cmd_position)
+{
+	int	i;
+	int	access_status;
+
+	i = -1;
+	pipex->cmd[cmd_position]->cmd_args = ft_assign_cmd_args(pipex,
+			cmd_position);
+	pipex->cmd[cmd_position]->cmd_name = pipex->cmd[cmd_position]->cmd_args[0];
+	access_status = NOT_FOUND;
+	return (ft_assign_cmd_path(pipex, cmd_position, access_status, i));
 }

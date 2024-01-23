@@ -1,8 +1,0 @@
-./pipex infile.txt "cat -e" "grep world" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" "cut -c 2-" outfile.txt
-
-
-./pipex here_doc EOF "cat -e" "grep world" outfile.txt 
-set follow-fork-mode child
-
-./pipex here_doc eof "fdsfds" "grep world" "echo 0123" "cut -c 2-" outfile.txt
-set detach-on-fork on
