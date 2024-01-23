@@ -37,9 +37,7 @@ void	here_doc(t_pipex *pipex, int cmd_position, int pipe_position)
 {
 	char	*line;
 	char	*limiter;
-	int		i;
 
-	i = 0;
 	if (pipex->cmd[cmd_position]->cmd_path == NULL)
 	{
 		free_finish(pipex);

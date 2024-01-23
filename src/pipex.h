@@ -15,7 +15,11 @@
 # define PIPEX_H
 
 # include "../libft/src/libft.h"
-# include <sys/types.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define WRITE 1
 # define READ 0

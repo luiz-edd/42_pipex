@@ -1,5 +1,5 @@
 NAME = pipex
-CC =  cc -Wall -Wextra -Werror -g3 -w
+CC =  cc -Wall -Wextra -Werror -g3
 SRC_PATH = ./src/
 OBJ_PATH = ./obj/
 LIBFT_PATH = ./libft/
@@ -32,6 +32,6 @@ fclean: clean
 	@make -C $(LIBFT_PATH) fclean
 
 val: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./pipex missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
+	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
 
 re: fclean all

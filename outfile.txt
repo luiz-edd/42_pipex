@@ -1,12 +1,1 @@
-a
-a
-a
-a
-a
---$
-------$
-gfdgfd--$
--bfgfd$
--------$
-f-$
-a-a-a-a-a-a-a$
+world 123$

@@ -41,9 +41,7 @@ static int	verify_access(char *cmd)
 	}
 	return (NOT_FOUND);
 }
-//	0		1			2				3			4			5
-// ./pipex infile 		cmd1 		cmd2 	outfile
-// ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
+
 int	verify_cmd(t_pipex *pipex, int cmd_position)
 {
 	int i;

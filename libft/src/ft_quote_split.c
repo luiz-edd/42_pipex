@@ -32,5 +32,6 @@ char	**ft_quote_split(char *str, char delimiter)
 		// ft_printf("position: %d\nword:|%s|\n", i, arr[i]);
 		str = ft_move_next_word(str, delimiter);
 	}
+	arr[i] = NULL;
 	return (arr);
 }

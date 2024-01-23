@@ -69,7 +69,10 @@ static int	create_env_path(t_pipex *pipex)
 		free(aux);
 		aux = NULL;
 		if (pipex->paths[i] == NULL)
-			return (free_matrix(pipex->paths));
+		{
+			free_matrix(pipex->paths);
+			return (ERROR);
+		}
 	}
 	return (SUCCESS);
 }
@@ -94,12 +97,10 @@ int	create_tubes(t_pipex *pipex)
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
 	int		i;
-	int		j;
 	t_pipex	*pipex;
 	int		cmd_quantity;
 
 	i = 0;
-	j = 0;
 	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex), 1);
 	if ((ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc"))) == 0)
 	{
@@ -122,6 +123,7 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
 	pipex->error_code = 0;
+	pipex->pid = 0;
 	if (open_files(pipex) == ERROR || create_tubes(pipex) == ERROR
 		|| create_env_path(pipex) == ERROR)
 		return (free_pipex(pipex->tube, pipex->cmd, pipex));

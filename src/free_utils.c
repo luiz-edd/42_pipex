@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h";
+#include "pipex.h"
 
 void	*free_cmd_content(t_pipex *pipex)
 {
