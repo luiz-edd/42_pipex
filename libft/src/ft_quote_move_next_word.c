@@ -33,14 +33,19 @@ static char	*move_quote(char *str, char quote, int *end_word)
 	return (str);
 }
 
-//"\'\'\'  \'\'\' fds\'\'    \'\"ds\'"
-char	*ft_move_next_word(char *str, char delimiter)
+static char	*ft_move_delimiter(char *str, char delimiter)
 {
-	int end_word;
-
-	end_word = 0;
 	while (*str == delimiter)
 		str++;
+	return (str);
+}
+
+char	*ft_move_next_word(char *str, char delimiter)
+{
+	int	end_word;
+
+	end_word = 0;
+	str = ft_move_delimiter(str, delimiter);
 	while (!end_word)
 	{
 		if (*str == S_QUOTE)
@@ -51,15 +56,12 @@ char	*ft_move_next_word(char *str, char delimiter)
 		{
 			while (*str != S_QUOTE && *str != D_QUOTE && *str != delimiter
 				&& *str != '\0')
-			{
 				str++;
-			}
 			end_word = 1;
 		}
 		if (!(*str == delimiter || *str == '\0'))
 			end_word = 0;
 	}
-	while (*str == delimiter)
-		str++;
+	str = ft_move_delimiter(str, delimiter);
 	return (str);
 }

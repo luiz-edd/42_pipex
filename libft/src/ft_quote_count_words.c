@@ -12,7 +12,27 @@
 
 #include "libft.h"
 
-// "\"\"\'\'\'Hi\' fsd "
+static char	*ft_is_a_word(char *str, char delimiter, char quote, int *count)
+{
+	while (*str != quote && *str != '\0')
+		str++;
+	if (*str != '\0')
+	{
+		str++;
+		if (*str == delimiter)
+		{
+			*count += 1;
+			while (*str == delimiter)
+				str++;
+		}
+		else if (*str == '\0')
+			*count += 1;
+	}
+	else
+		*count += 1;
+	return (str);
+}
+
 static char	*verify_word(char *str, char delimiter, char quote, int *count)
 {
 	while (*str == delimiter)
@@ -27,24 +47,7 @@ static char	*verify_word(char *str, char delimiter, char quote, int *count)
 				*count += 1;
 		}
 		else
-		{
-			while (*str != quote && *str != '\0')
-				str++;
-			if (*str != '\0')
-			{
-				str++;
-				if (*str == delimiter)
-				{
-					*count += 1;
-					while (*str == delimiter)
-						str++;
-				}
-				else if (*str == '\0')
-					*count += 1;
-			}
-			else
-				*count += 1;
-		}
+			str = ft_is_a_word(str, delimiter, quote, count);
 	}
 	return (str);
 }
@@ -52,7 +55,7 @@ static char	*verify_word(char *str, char delimiter, char quote, int *count)
 //  ""''aa
 int	ft_countwords_quote(char *str, char delimiter)
 {
-	int		count;
+	int	count;
 
 	count = 0;
 	while (*str)

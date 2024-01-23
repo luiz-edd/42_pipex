@@ -34,15 +34,33 @@ static char	*move_quote(char *str, char quote, int *end_word, int *len)
 	return (str);
 }
 
-//"\'\'\'  \'\'\' fds\'\'    \'\"ds\'"
-int	ft_get_len(char *str, char delimiter)
+static char	*ft_move_delimiter(char *str, char delimiter)
 {
-	int end_word;
-	int len;
-	end_word = 0;
-	len = 0;
 	while (*str == delimiter)
 		str++;
+	return (str);
+}
+
+static char	*ft_not_quote(char *str, char delimiter, int *len, int *end_word)
+{
+	while (*str != S_QUOTE && *str != D_QUOTE && *str != delimiter
+		&& *str != '\0')
+	{
+		str++;
+		*len += 1;
+	}
+	*end_word = 1;
+	return (str);
+}
+
+int	ft_get_len(char *str, char delimiter)
+{
+	int	end_word;
+	int	len;
+
+	end_word = 0;
+	len = 0;
+	str = ft_move_delimiter(str, delimiter);
 	while (!end_word)
 	{
 		if (*str == S_QUOTE)
@@ -50,19 +68,10 @@ int	ft_get_len(char *str, char delimiter)
 		else if (*str == D_QUOTE)
 			str = move_quote(str, D_QUOTE, &end_word, &len);
 		else
-		{
-			while (*str != S_QUOTE && *str != D_QUOTE && *str != delimiter
-				&& *str != '\0')
-			{
-				str++;
-				len += 1;
-			}
-			end_word = 1;
-		}
+			str = ft_not_quote(str, delimiter, &len, &end_word);
 		if (!(*str == delimiter || *str == '\0'))
 			end_word = 0;
 	}
-	while (*str == delimiter)
-		str++;
+	str = ft_move_delimiter(str, delimiter);
 	return (len);
 }

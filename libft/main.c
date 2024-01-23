@@ -12,9 +12,9 @@
 
 #include "src/libft.h"
 
-int	main()
+int	main(void)
 {
-	char *str = " \"\"oivaitomanocu\"\" \'     -      \'\'\'\'aaa\' ";
+	char *str = " 1 '' \"\" ' \"\" 4'         '         5       ' \"6''''\" 7''\"\"";
 	char **splited = ft_quote_split(str, ' ');
 	ft_print_words(splited);
 }
