@@ -40,8 +40,8 @@ void	here_doc(t_pipex *pipex, int cmd_position, int pipe_position)
 
 	if (pipex->cmd[cmd_position]->cmd_path == NULL)
 	{
-		free_finish(pipex);
-		exit(EXIT_FAILURE);
+		// free_finish(pipex);
+		// exit(EXIT_FAILURE);
 	}
 	line = get_next_line(1);
 	close(pipex->tube[pipe_position].read_end);

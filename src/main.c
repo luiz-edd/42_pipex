@@ -53,16 +53,16 @@ int	main(int argc, char **argv, char **envp)
 		return (2);
 	while (i < pipex->cmd_quantity)
 	{
-		// if (!(pipex->has_herodoc && j == 0))
-		// {
-		// 	if (verify_cmd(pipex, i) == ERROR && i == pipex->cmd_quantity - 1)
-		// 	{
-		// 		pipex->error_code = 127;
-		// 		ft_printf("pipex error code comand :%d\n", pipex->error_code);
-		// 	}
-		// }
+		if (!(pipex->has_herodoc && j == 0))
+		{
+			if (verify_cmd(pipex, i) == ERROR && i == pipex->cmd_quantity - 1)
+			{
+				pipex->error_code = 127;
+				ft_printf("pipex error code comand :%d\n", pipex->error_code);
+			}
+		}
 		// else
-		verify_cmd(pipex, i);
+		// 	verify_cmd(pipex, i);
 		pipex->pid = fork();
 		if (pipex->pid == 0)
 		{
@@ -86,8 +86,8 @@ int	main(int argc, char **argv, char **envp)
 				if ((((status)&0xff00) >> 8) == 1 && pipex->error_code != 127)
 					pipex->error_code = 1;
 			}
-			// else
-			// 	wait(NULL);
+			else
+				wait(NULL);
 		}
 	}
 	status = pipex->error_code;

@@ -93,10 +93,9 @@ void	ft_add_word(char *str, char delimiter, char *dst)
 				dst[i++] = *str;
 				str++;
 			}
-			dst[i] = '\0';
 			end_word = 1;
 		}
 		ft_not_end_word(str, delimiter, &end_word);
 	}
-	str = ft_move_delimiter(str, delimiter);
+	dst[i] = '\0';
 }

@@ -101,4 +101,7 @@ fclean: clean
 
 re: fclean all
 
+val:
+	make && $(CC) main.c libft.a && valgrind --leak-check=full --track-origins=yes ./a.out
+
 .PHONY: all re clean fclean

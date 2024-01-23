@@ -14,7 +14,15 @@
 
 int	main(void)
 {
+	int i;
+	i = -1;
 	char *str = " 1 '' \"\" ' \"\" 4'         '         5       ' \"6''''\" 7''\"\"";
 	char **splited = ft_quote_split(str, ' ');
-	ft_print_words(splited);
+	// ft_print_words(splited);
+	while (splited[++i])
+	{
+		free(splited[i]);
+	}
+	free(splited);
+	// ft_printf("position: %d\n%s\n", i, splited[i]);
 }
