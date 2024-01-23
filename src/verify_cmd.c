@@ -72,22 +72,19 @@ int	verify_cmd(t_pipex *pipex, int cmd_position)
 		if (access_status != NOT_FOUND)
 			break ;
 		free(cmd_path);
+		cmd_path = NULL;
 	}
 	if (access_status != FOUND)
 	{
 		if (cmd_path == NULL)
 			cmd_path = ft_strjoin(pipex->paths[i - 1], cmd_name);
 		print_access_error(access_status, cmd_name);
-		pipex->cmd[cmd_position]->cmd_args = cmd_args;
-		pipex->cmd[cmd_position]->cmd_name = cmd_name;
-		pipex->cmd[cmd_position]->cmd_path = cmd_path;
-		return (ERROR);
 	}
-	// free_matrix(cmd_args);
-	// return (ERROR);
-
 	pipex->cmd[cmd_position]->cmd_args = cmd_args;
 	pipex->cmd[cmd_position]->cmd_name = cmd_name;
 	pipex->cmd[cmd_position]->cmd_path = cmd_path;
-	return (SUCCESS);
+	if (access_status != FOUND)
+		return (ERROR);
+	else
+		return (SUCCESS);
 }

@@ -20,16 +20,16 @@ char	**ft_quote_split(char *str, char delimiter)
 
 	i = -1;
 	words = ft_countwords_quote(str, delimiter);
-	ft_printf("str:|%s|\n", str);
-	ft_printf("total words: %d\n", words);
+	// ft_printf("str:|%s|\n", str);
+	// ft_printf("total words: %d\n", words);
 	arr = (char **)malloc((words + 1) * sizeof(char *));
 	while (++i < words)
 	{
-		ft_printf("----------------------------------------\n");
-		ft_printf("len: %d\n", ft_get_len(str, delimiter));
+		// ft_printf("----------------------------------------\n");
+		// ft_printf("len: %d\n", ft_get_len(str, delimiter));
 		arr[i] = (char *)malloc(ft_get_len(str, delimiter) + 1);
 		ft_add_word(str, delimiter, arr[i]);
-		ft_printf("position: %d\nword:|%s|\n", i, arr[i]);
+		// ft_printf("position: %d\nword:|%s|\n", i, arr[i]);
 		str = ft_move_next_word(str, delimiter);
 	}
 	return (arr);
