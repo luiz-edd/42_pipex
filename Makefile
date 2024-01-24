@@ -58,8 +58,8 @@ clean:
 	@make -C $(LIBFT_PATH) clean
 
 fclean:
-	@rm -rf $(NAME)
-	@rm -rf $(BONUS_NAME)
+	@rm -rf obj
+	@rm -rf obj_bonus
 	@make -C $(LIBFT_PATH) fclean
 
 re: fclean all
