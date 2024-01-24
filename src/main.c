@@ -67,7 +67,7 @@ void	ft_manage_father(t_pipex *pipex, int *i, int *j, int *status)
 	if (pipex->pid == 0)
 	{
 		if (pipex->has_herodoc && *j == 0)
-			here_doc(pipex, *i, *j);
+			here_doc(pipex, *j);
 		else
 			manage_child(pipex, *i, *j);
 	}
