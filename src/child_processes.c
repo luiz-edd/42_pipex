@@ -14,17 +14,8 @@
 #include <errno.h>
 #include <stdio.h>
 
-//	0		1			2				3			4				5
-// ./pipex infile 		cmd1 		cmd2 	outfile
-// ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
-
 void	manage_child(t_pipex *pipex, int cmd_position, int pipe_position)
 {
-	// if (pipex->cmd[cmd_position]->cmd_path == NULL)
-	// {
-	// 	free_finish(pipex);
-	// 	exit(EXIT_FAILURE);
-	// }
 	if (cmd_position == 0 && !pipex->has_herodoc)
 		child_first(pipex, cmd_position, pipe_position);
 	else if (cmd_position < pipex->cmd_quantity - 1)
@@ -33,16 +24,11 @@ void	manage_child(t_pipex *pipex, int cmd_position, int pipe_position)
 		child_last(pipex, cmd_position, pipe_position);
 }
 
-void	here_doc(t_pipex *pipex, int cmd_position, int pipe_position)
+void	here_doc(t_pipex *pipex, int pipe_position)
 {
 	char	*line;
 	char	*limiter;
 
-	if (pipex->cmd[cmd_position]->cmd_path == NULL)
-	{
-		// free_finish(pipex);
-		// exit(EXIT_FAILURE);
-	}
 	line = get_next_line(1);
 	close(pipex->tube[pipe_position].read_end);
 	if (line == NULL)
@@ -99,8 +85,6 @@ void	child_middle(t_pipex *pipex, int cmd_position, int pipe_position)
 		exit(EXIT_FAILURE);
 	if (dup2(pipex->tube[pipe_position].write_end, STDOUT_FILENO) == -1)
 		exit(EXIT_FAILURE);
-	// close(pipex->fd1);
-	// close(pipex->fd2);
 	close_pipes(pipex);
 	execve(cmd_path, cmd_args, pipex->envp);
 	free_finish(pipex);
@@ -125,12 +109,7 @@ void	child_last(t_pipex *pipex, int cmd_position, int pipe_position)
 	if (dup2(pipex->fd2, STDOUT_FILENO) == -1)
 		exit(EXIT_FAILURE);
 	close(pipex->fd2);
-	// close_pipes(pipex);
-	// ft_putstr_fd("----------------------\n", 2);
-	// ft_putnbr_fd(execve(cmd_path, cmd_args, pipex->envp), 2);
-	// ft_putstr_fd("----------------------\n", 2);
 	execve(cmd_path, cmd_args, pipex->envp);
 	free_finish(pipex);
 	exit(EXIT_FAILURE);
 }
-// errno

@@ -28,6 +28,7 @@ static int	open_files(t_pipex *pipex)
 		perror(pipex->outfile_path);
 	return (SUCCESS);
 }
+
 char	*get_path(t_pipex *pipex)
 {
 	int		i;
@@ -54,25 +55,16 @@ static int	create_env_path(t_pipex *pipex)
 	i = -1;
 	path = get_path(pipex);
 	if (path != NULL)
-	{
 		while (*path != '=')
 			path++;
-	}
 	path++;
 	pipex->paths = ft_split(path, ':');
-	if (pipex->paths == NULL)
-		return (ERROR);
 	while (pipex->paths[++i])
 	{
 		aux = pipex->paths[i];
 		pipex->paths[i] = ft_strjoin(pipex->paths[i], "/");
 		free(aux);
 		aux = NULL;
-		if (pipex->paths[i] == NULL)
-		{
-			free_matrix(pipex->paths);
-			return (ERROR);
-		}
 	}
 	return (SUCCESS);
 }
@@ -91,34 +83,13 @@ int	create_tubes(t_pipex *pipex)
 	return (SUCCESS);
 }
 
-//	0		1			2				3			4			5
-// ./pipex infile 		cmd1 		cmd2 	outfile
-// ./pipex here_doc  LIMITER cmd1 	cmd2 		outfile
 t_pipex	*create_pipex(int argc, char **argv, char **envp)
 {
-	int		i;
 	t_pipex	*pipex;
-	int		cmd_quantity;
 
-	i = 0;
 	pipex = (t_pipex *)ft_calloc(sizeof(t_pipex), 1);
-	if ((ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc"))) == 0)
-	{
-		pipex->has_herodoc = 1;
-		cmd_quantity = argc - 4;
-		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity + 1);
-	}
-	else
-	{
-		pipex->has_herodoc = 0;
-		cmd_quantity = argc - 3;
-		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
-	}
-	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd **), cmd_quantity);
-	while (i < cmd_quantity)
-		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
-	pipex->cmd_quantity = cmd_quantity;
 	pipex->argv = argv;
+	pipex->cmd_quantity = ft_malloc_tube_and_cmd(pipex, argc);
 	pipex->envp = envp;
 	pipex->infile_path = argv[1];
 	pipex->outfile_path = argv[argc - 1];
@@ -127,6 +98,5 @@ t_pipex	*create_pipex(int argc, char **argv, char **envp)
 	if (open_files(pipex) == ERROR || create_tubes(pipex) == ERROR
 		|| create_env_path(pipex) == ERROR)
 		return (free_pipex(pipex->tube, pipex->cmd, pipex));
-	i = 0;
 	return (pipex);
 }

@@ -16,6 +16,30 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int	ft_malloc_tube_and_cmd(t_pipex *pipex, int argc)
+{
+	int	i;
+	int	cmd_quantity;
+
+	i = 0;
+	if ((ft_strncmp(pipex->argv[1], "here_doc", ft_strlen("here_doc"))) == 0)
+	{
+		pipex->has_herodoc = 1;
+		cmd_quantity = argc - 4;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity + 1);
+	}
+	else
+	{
+		pipex->has_herodoc = 0;
+		cmd_quantity = argc - 3;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	}
+	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd **), cmd_quantity);
+	while (i < cmd_quantity)
+		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
+	return (cmd_quantity);
+}
+
 void	close_pipes(t_pipex *pipex)
 {
 	int	i;

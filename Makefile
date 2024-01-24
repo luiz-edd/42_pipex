@@ -6,7 +6,7 @@ LIBFT_PATH = ./libft/
 HEADER = -I ./libft/src -I /src
 LIBFT = libft/libft.a
 
-SRC	= child_processes.c create_pipex.c free_utils.c main.c verify_cmd.c 
+SRC	= child_processes.c create_pipex.c free_utils.c main.c verify_cmd.c
 OBJ = $(SRC:%.c=%.o)
 
 OBJ_WITH_PATH = $(addprefix $(OBJ_PATH),$(OBJ))
@@ -34,9 +34,15 @@ fclean: clean
 val: $(NAME)
 	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
 
+val2: $(NAME)
+	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
+	
+val3: $(NAME)
+	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
+
 re: fclean all
 
-test:
-	make && ./pipex infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
-	make && ./pipex here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
+test: $(NAME)
+	./pipex infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
+	./pipex here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
 	

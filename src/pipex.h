@@ -72,7 +72,8 @@ int			verify_cmd(t_pipex *pipex, int cmd_position);
 
 // main
 void		close_pipes(t_pipex *pipex);
-void		here_doc(t_pipex *pipex, int cmd_position, int pipe_position);
+void		here_doc(t_pipex *pipex, int pipe_position);
+int			ft_malloc_tube_and_cmd(t_pipex *pipex, int argc);
 
 // free_utils
 void		*free_pipex(t_tube *tube, t_cmd **cmd, t_pipex *pipex);
