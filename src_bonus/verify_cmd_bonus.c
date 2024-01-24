@@ -46,7 +46,10 @@ static char	**ft_assign_cmd_args(t_pipex *pipex, int cmd_position)
 {
 	char	**cmd_args;
 
-	cmd_args = ft_quote_split(pipex->argv[cmd_position + 2], ' ');
+	if (pipex->has_herodoc)
+		cmd_args = ft_quote_split(pipex->argv[cmd_position + 3], ' ');
+	else
+		cmd_args = ft_quote_split(pipex->argv[cmd_position + 2], ' ');
 	return (cmd_args);
 }
 

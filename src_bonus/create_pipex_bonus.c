@@ -15,10 +15,15 @@
 static int	open_files(t_pipex *pipex)
 {
 	pipex->fd1 = -1;
-	pipex->fd1 = open(pipex->infile_path, O_RDONLY);
-	if (pipex->fd1 < 0)
+	if (!pipex->has_herodoc)
+		pipex->fd1 = open(pipex->infile_path, O_RDONLY);
+	if (pipex->fd1 < 0 && !pipex->has_herodoc)
 		perror(pipex->infile_path);
-	pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (pipex->has_herodoc)
+		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_APPEND);
+	else
+		pipex->fd2 = open(pipex->outfile_path, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
 	if (pipex->fd2 < 0)
 		perror(pipex->outfile_path);
 	return (SUCCESS);

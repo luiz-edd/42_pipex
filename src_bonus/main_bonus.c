@@ -22,8 +22,18 @@ int	ft_malloc_tube_and_cmd(t_pipex *pipex, int argc)
 	int	cmd_quantity;
 
 	i = 0;
-	cmd_quantity = argc - 3;
-	pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	if ((ft_strncmp(pipex->argv[1], "here_doc", ft_strlen("here_doc"))) == 0)
+	{
+		pipex->has_herodoc = 1;
+		cmd_quantity = argc - 4;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity + 1);
+	}
+	else
+	{
+		pipex->has_herodoc = 0;
+		cmd_quantity = argc - 3;
+		pipex->tube = (t_tube *)ft_calloc(sizeof(t_tube *), cmd_quantity);
+	}
 	pipex->cmd = (t_cmd **)ft_calloc(sizeof(t_cmd **), cmd_quantity);
 	while (i < cmd_quantity)
 		pipex->cmd[i++] = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
@@ -33,9 +43,14 @@ int	ft_malloc_tube_and_cmd(t_pipex *pipex, int argc)
 void	close_pipes(t_pipex *pipex)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (i < pipex->cmd_quantity)
+	if (pipex->has_herodoc)
+		j = pipex->has_herodoc + 1;
+	else
+		j = pipex->has_herodoc;
+	while (i < j)
 	{
 		close(pipex->tube[i].read_end);
 		close(pipex->tube[i].write_end);
@@ -45,14 +60,21 @@ void	close_pipes(t_pipex *pipex)
 
 void	ft_manage_father(t_pipex *pipex, int *i, int *j, int *status)
 {
-	if (verify_cmd(pipex, *i) == ERROR && *i == pipex->cmd_quantity - 1)
-		pipex->error_code = 127;
+	if (!(pipex->has_herodoc && *j == 0))
+		if (verify_cmd(pipex, *i) == ERROR && *i == pipex->cmd_quantity - 1)
+			pipex->error_code = 127;
 	pipex->pid = fork();
 	if (pipex->pid == 0)
-		manage_child(pipex, *i, *j);
+	{
+		if (pipex->has_herodoc && *j == 0)
+			here_doc(pipex, *j);
+		else
+			manage_child(pipex, *i, *j);
+	}
 	else
 	{
-		*i += 1;
+		if (!(pipex->has_herodoc && *j == 0))
+			*i += 1;
 		close(pipex->tube[(*j)++].write_end);
 		if (*i == pipex->cmd_quantity)
 		{
@@ -72,12 +94,9 @@ int	main(int argc, char **argv, char **envp)
 
 	i = 0;
 	j = 0;
-	if (argc != 5)
+	if (argc < 5)
 	{
-		if (argc < 5)
-			ft_printf("missing args\n");
-		else if (argc > 5)
-			ft_printf("to many args\n");
+		ft_printf("missing args\n");
 		return (2);
 	}
 	pipex = create_pipex(argc, argv, envp);

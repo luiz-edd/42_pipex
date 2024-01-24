@@ -51,6 +51,7 @@ typedef struct s_pipex
 	char	*outfile_path;
 	int		fd1;
 	int		fd2;
+	int		has_herodoc;
 	int		error_code;
 	pid_t	pid;
 	t_cmd	**cmd;
@@ -62,6 +63,7 @@ t_pipex		*create_pipex(int argc, char **argv, char **envp);
 
 // child_processes
 void		child_first(t_pipex *pipex, int cmd_position, int pipe_position);
+void		child_middle(t_pipex *pipex, int cmd_position, int pipe_position);
 void		child_last(t_pipex *pipex, int cmd_position, int pipe_position);
 void		manage_child(t_pipex *pipex, int cmd_position, int pipe_position);
 
@@ -70,6 +72,7 @@ int			verify_cmd(t_pipex *pipex, int cmd_position);
 
 // main
 void		close_pipes(t_pipex *pipex);
+void		here_doc(t_pipex *pipex, int pipe_position);
 int			ft_malloc_tube_and_cmd(t_pipex *pipex, int argc);
 
 // free_utils
