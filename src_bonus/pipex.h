@@ -6,7 +6,7 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:20:50 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 16:35:13 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:49:54 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define PIPEX_H
 
-# include "../libft/src/libft.h"
+# include "../lib/libft/src/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <string.h>

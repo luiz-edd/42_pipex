@@ -6,13 +6,11 @@
 /*   By: leduard2 <leduard2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:11:02 by leduard2          #+#    #+#             */
-/*   Updated: 2024/01/12 17:53:22 by leduard2         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:07:46 by leduard2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <errno.h>
-#include <stdio.h>
 
 void	manage_child(t_pipex *pipex, int cmd_position, int pipe_position)
 {

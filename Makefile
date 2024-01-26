@@ -4,12 +4,12 @@ CFLAGS = -Wextra -Wall -Werror -g3
 CC = cc $(CFLAGS)
 
 # lib
-LIBFT = ./libft/libft.a
-LIBFT_PATH = ./libft/
+LIBFT = ./lib/libft/libft.a
+LIBFT_PATH = lib/libft/
 
 #headers
-HEADER = -I libft/src -I src/
-HEADER_BONUS = -I libft/src -I src_bonus/
+HEADER = -I lib/libft/src -I src/
+HEADER_BONUS = -I lib/libft/src -I src_bonus/
 
 # file names
 SRC	= child_processes.c create_pipex.c free_utils.c main.c verify_cmd.c
@@ -29,7 +29,10 @@ OBJ_PATH = $(addprefix $(OBJ_FOLDER), $(OBJ))
 SRC_PATH_BONUS = $(addprefix $(SRC_FOLDER_BONUS), $(SRC_BONUS))
 OBJ_PATH_BONUS = $(addprefix $(OBJ_FOLDER_BONUS), $(OBJ_BONUS))
 
-all: $(NAME)
+all: libft $(NAME) 
+
+libft:
+	@make -C $(LIBFT_PATH) --silent
 
 # mandatory
 $(NAME): $(OBJ_PATH)
@@ -37,18 +40,16 @@ $(NAME): $(OBJ_PATH)
 
 $(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c
 	@mkdir -p $(OBJ_FOLDER)
-	@make -C $(LIBFT_PATH)
 	$(CC) $< -o $@ -c $(HEADER) 
 
 # bonus
-bonus: $(NAME_BONUS)
+bonus: libft $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_PATH_BONUS)
 	$(CC) $(OBJ_PATH_BONUS) $(LIBFT) $(HEADER_BONUS) -o $(NAME_BONUS)
 
 $(OBJ_FOLDER_BONUS)%.o: $(SRC_FOLDER_BONUS)%.c
 	@mkdir -p $(OBJ_FOLDER_BONUS)
-	@make -C $(LIBFT_PATH)
 	$(CC) $< -o $@ -c $(HEADER_BONUS) 
 
 # utils 
@@ -57,9 +58,11 @@ clean:
 	@rm -rf obj_bonus
 	@make -C $(LIBFT_PATH) clean
 
-fclean:
+fclean: clean
 	@rm -rf obj
 	@rm -rf obj_bonus
+	@rm -rf pipex
+	@rm -rf pipex_bonus
 	@make -C $(LIBFT_PATH) fclean
 
 re: fclean all
@@ -70,16 +73,16 @@ normi:
 .PHONY: all clean fclean re
 
 # tests
-test: $(NAME_BONUS)
+test: bonus
 	./pipex_bonus infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
 	./pipex_bonus here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
 
-val: $(NAME_BONUS)
+val: bonus
 	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex_bonus missingfile "fsdfds" "cat -e" "fdsfds2" "grep world" "fdsfdsds" "echo ----"  /etc/passwd
 
-val2: $(NAME_BONUS)
+val2: bonus
 	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex_bonus infile.txt "cat -e" "grep world" "tr rl ' \"'" outfile.txt  && cat outfile.txt 
 	
-val3: $(NAME_BONUS)
+val3: bonus
 	valgrind  --leak-check=full --show-leak-kinds=all --track-origins=yes --vgdb=yes ./pipex_bonus here_doc eof "cat -e" "grep world" "tr rl ' \"'" outfile2.txt && cat outfile2.txt 
 
